@@ -1,9 +1,7 @@
 package org.serratec.backend.service;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.hql.internal.ast.tree.IsNullLogicOperatorNode;
 import org.serratec.backend.dto.ClienteDTO;
 import org.serratec.backend.dto.LogarCliente;
 import org.serratec.backend.entity.ClienteEntity;
