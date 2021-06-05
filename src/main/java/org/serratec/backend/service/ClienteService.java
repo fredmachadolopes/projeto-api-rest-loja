@@ -1,12 +1,12 @@
 package org.serratec.backend.service;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.hql.internal.ast.tree.IsNullLogicOperatorNode;
 import org.serratec.backend.dto.ClienteDTO;
 import org.serratec.backend.dto.LogarCliente;
 import org.serratec.backend.entity.ClienteEntity;
+import org.serratec.backend.entity.EnderecoEntity;
+import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.serratec.backend.mapper.ClienteMapper;
 import org.serratec.backend.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,9 @@ public class ClienteService {
 
 	@Autowired
 	ClienteMapper clienteMapper;
+	
+	@Autowired
+	EnderecoService enderecoService;
 
 	// GetAll
 //	public List<ClienteDTO> findAllCliente(String nome){
@@ -43,8 +46,13 @@ public class ClienteService {
 	}
 
 	// POST
-	public ClienteDTO create(ClienteDTO dto) {
-		return clienteMapper.toDto(clienteRepository.save(clienteMapper.toEntity(dto)));
+	public ClienteDTO create(ClienteDTO dto) throws HasErrorInResponseCepException{
+	 EnderecoEntity endereco = enderecoService.adicionandoDadosAoEndereco(dto.getEndereco());
+	 ClienteEntity cliente = clienteMapper.toEntity(dto);
+	 cliente.setEndereco(endereco);
+	 endereco.setCliente(cliente);
+	 enderecoService.saveInDataBase(endereco);
+		return clienteMapper.toDto(clienteRepository.save(cliente));
 	}
 
 	// PUT

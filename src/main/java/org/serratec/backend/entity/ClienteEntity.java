@@ -1,6 +1,8 @@
 package org.serratec.backend.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -18,7 +21,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-@Table(name = "cliente")
+@Table(name = "lista_cliente")
 public class ClienteEntity {
 
 	@Id
@@ -53,6 +56,9 @@ public class ClienteEntity {
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
 	//
+	// associações entre a classe Endereco
+	@OneToMany(mappedBy = "cliente")
+	private List<EnderecoEntity> endereco = new ArrayList<EnderecoEntity>();
 
 	public Long getId() {
 		return Id;
@@ -118,17 +124,13 @@ public class ClienteEntity {
 		this.dtNascimento = dtNascimento;
 	}
 
-	// associações entre a classe Endereco
-	@ManyToOne
-	@JoinColumn(referencedColumnName = "id")
-	private EnderecoEntity endereco;
 
-	public EnderecoEntity getEndereco() {
+	public List<EnderecoEntity> getEndereco() {
 		return endereco;
 	}
 
 	public void setEndereco(EnderecoEntity endereco) {
-		this.endereco = endereco;
+		this.endereco.add(endereco);
 	}
 
 }

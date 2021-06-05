@@ -39,6 +39,16 @@ public class ClienteDTO {
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
 	//
+	
+	private EnderecoDTO endereco;
+
+	public EnderecoDTO getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(EnderecoDTO endereco) {
+		this.endereco = endereco;
+	}
 
 	public String getEmail() {
 		return email;

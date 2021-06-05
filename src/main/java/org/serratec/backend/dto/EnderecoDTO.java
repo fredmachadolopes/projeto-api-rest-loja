@@ -1,6 +1,5 @@
 package org.serratec.backend.dto;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 public class EnderecoDTO {
@@ -8,23 +7,21 @@ public class EnderecoDTO {
 	@NotNull
 	private String CEP;
 
-	@NotNull
+	
 	private String rua;
 
-	@NotNull
+
 	private String bairro;
 
-	@NotNull
+
 	private String cidade;
 
 	@NotNull
 	private String numero;
 
-	@NotNull
+
 	private String complemento;
 
-	@Column(name = "estado") 
-	@NotNull
 	private String estado;
 
 	public String getCEP() {

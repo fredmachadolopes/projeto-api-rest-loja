@@ -4,13 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Projeto09Application {
+public class ProjetoApiRestApplication {
 
 	
 
 
 	public static void main(String[] args) {
-		SpringApplication.run(Projeto09Application.class, args);
+		SpringApplication.run(ProjetoApiRestApplication.class, args);
 		
 
 

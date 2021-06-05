@@ -2,6 +2,7 @@ package org.serratec.backend.controller;
 
 import org.serratec.backend.dto.ClienteDTO;
 import org.serratec.backend.dto.LogarCliente;
+import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.serratec.backend.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,8 @@ public class ClienteController {
 //	}
 	
 	@PostMapping("/criarCliente")
-	public ResponseEntity<ClienteDTO>create(@RequestBody ClienteDTO dto){
+	public ResponseEntity<ClienteDTO>create(@RequestBody ClienteDTO dto) throws HasErrorInResponseCepException{
+
 		return new ResponseEntity<ClienteDTO>(clienteService.create(dto),HttpStatus.OK);
 	}
 	
