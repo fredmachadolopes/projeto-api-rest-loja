@@ -10,6 +10,9 @@ public interface ClienteRepository extends JpaRepository<ClienteEntity, Long> {
 	@Query("FROM ClienteEntity cliente where cliente.email like :email")
 	ClienteEntity findByEmail(@Param("email") String email);
 	
+//	@Query("DELETE FROM ClienteEntity  where email = :email")
+	void deleteByEmail(String email);
+	
 //	@Query("FROM ClienteEntity order by email")
 //	ClienteEntity findCustom();
 }

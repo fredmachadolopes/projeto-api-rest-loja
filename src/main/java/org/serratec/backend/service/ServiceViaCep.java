@@ -1,6 +1,6 @@
 package org.serratec.backend.service;
 
-import org.serratec.backend.entity.ViaCepEntity;
+import org.serratec.backend.dto.ViaCepDTO;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
@@ -10,13 +10,13 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ServiceViaCep {
 	
-	public ViaCepEntity pegarCep(String cep) throws HasErrorInResponseCepException {
+	public ViaCepDTO pegarCep(String cep) throws HasErrorInResponseCepException {
 		
 		try {
 			
-			HttpEntity<ViaCepEntity> cepApi = new RestTemplate().getForEntity("https://viacep.com.br/ws/"+ cep +"/json", ViaCepEntity.class);
+			HttpEntity<ViaCepDTO> cepApi = new RestTemplate().getForEntity("https://viacep.com.br/ws/"+ cep +"/json", ViaCepDTO.class);
 		
-				ViaCepEntity cepDados = cepApi.getBody();
+				ViaCepDTO cepDados = cepApi.getBody();
 			
 				return cepDados;
 

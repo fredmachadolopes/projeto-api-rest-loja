@@ -1,6 +1,6 @@
-package org.serratec.backend.entity;
+package org.serratec.backend.dto;
 
-public class ViaCepEntity {
+public class ViaCepDTO {
 
 	private String cep;  
 	private String logradouro;  

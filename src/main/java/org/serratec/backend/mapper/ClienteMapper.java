@@ -41,6 +41,7 @@ public class ClienteMapper {
 		ClienteDTO clienteDto = new ClienteDTO();
 		clienteDto.setEmail(clienteEntity.getEmail());
 		clienteDto.setUsername(clienteEntity.getUsername());
+		clienteDto.setToken(clienteEntity.getToken());
 		return clienteDto;
 	}
 }

@@ -1,5 +1,6 @@
 package org.serratec.backend.service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,12 +9,13 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.serratec.backend.dto.ClienteDTO;
 import org.serratec.backend.dto.EnderecoDTO;
-import org.serratec.backend.dto.LogarCliente;
 import org.serratec.backend.entity.ClienteEntity;
 import org.serratec.backend.entity.EnderecoEntity;
 import org.serratec.backend.exceptionProject.ClientNotFoundException;
 import org.serratec.backend.exceptionProject.EmailOrPasswordNotValid;
+import org.serratec.backend.exceptionProject.HasAdressInList;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
+import org.serratec.backend.logado.LogarCliente;
 import org.serratec.backend.mapper.ClienteMapper;
 import org.serratec.backend.mapper.EnderecoMapper;
 import org.serratec.backend.repository.ClienteRepository;
@@ -36,29 +38,18 @@ public class ClienteService {
 	@Autowired
 	EnderecoMapper enderecoMapper;
 
-	public Boolean verificarId(Long id) {
-		return clienteRepository.existsById(id);
-	}
-
 	// GET
 	public List<ClienteEntity> findAll() {
 		return clienteRepository.findAll();
 	}
 	public String gerarToken() {
 		String token ="";
-		for(int i = 0; i < 2; i++) {
+		for(int i = 0; i < 3; i++) {
 			char letra = (char) Math.round((Math.random() * 25) + 65);
 			int num = (int) Math.round(Math.random() * 9);
 			token += num + "" +letra; 
 		}
 		return token;
-	}
-
-	public ClienteDTO findById(Long id) throws ClientNotFoundException {
-		if (verificarId(id)) {
-			return clienteMapper.toDto(clienteRepository.findById(id).get());
-		}
-		throw new ClientNotFoundException ("Cliente não encontrado"); 
 	}
 
 	// POST
@@ -71,48 +62,68 @@ public class ClienteService {
 			 enderecoService.saveInDataBase(endereco);
 		}
 		return clienteMapper.toDto(clienteRepository.save(cliente)) ;
+		// Finalizado
 	}
 
 	// PUT
-	public ClienteDTO update(Long id, ClienteDTO dto) throws ClientNotFoundException {
-		if (verificarId(id)) {
-			ClienteEntity cliente = clienteRepository.getById(id);
-			if (dto.getEmail() != null) {
-				cliente.setEmail(dto.getEmail());
+	public ClienteDTO update(ClienteDTO dto) throws ClientNotFoundException {
+		// falta adicionar a verificacao do horario do token
+		for(ClienteEntity cliente: findAll()) {
+			if(cliente.getToken().equals(dto.getToken()) && (cliente.getEmail().equals(dto.getEmail()))) {
+				if (dto.getEmail() != null) {
+					cliente.setEmail(dto.getEmail());
+				}
+				if (dto.getUsername() != null) {
+					cliente.setUsername(dto.getUsername());
+				}
+				if (dto.getSenha() != null) {
+					cliente.setSenha(dto.getSenha());
+				}
+				if (dto.getNome() != null) {
+					cliente.setNome(dto.getNome());
+				}
+	
+				if (dto.getTelefone() != null) {
+					cliente.setTelefone(dto.getTelefone());
+				}
+				if (dto.getDtNascimento() != null) {
+					cliente.setDtNascimento(dto.getDtNascimento());
+				}
+	
+				clienteRepository.saveAndFlush(cliente);
+				return dto;
 			}
-			if (dto.getUsername() != null) {
-				cliente.setUsername(dto.getUsername());
-			}
-			if (dto.getSenha() != null) {
-				cliente.setSenha(dto.getSenha());
-			}
-			if (dto.getNome() != null) {
-				cliente.setNome(dto.getNome());
-			}
-
-			if (dto.getTelefone() != null) {
-				cliente.setTelefone(dto.getTelefone());
-			}
-			if (dto.getDtNascimento() != null) {
-				cliente.setDtNascimento(dto.getDtNascimento());
-			}
-
-			// Endereco
-
-			clienteRepository.saveAndFlush(cliente);
-			return dto;
 		}
 		throw new ClientNotFoundException ("Cliente não encontrado");
+	}
+	//Esse metodo é para saber se o cliente está logado
+	public ClienteEntity clienteLogado(LogarCliente logado) {
+		for(ClienteEntity cliente: findAll()) {
+			if(cliente.getToken().equals(logado.getToken()) && (cliente.getEmail().equals(logado.getEmail()))) {
+				
+					return cliente;
+				}		
+			}
+		return null;
 	}
 
 	// DELETE
-	public String delete(Long id) throws ClientNotFoundException {
-		if (verificarId(id)) {
-			clienteRepository.deleteById(id);
-			return "Cliente deletado com sucesso!";
-		}
-		throw new ClientNotFoundException ("Cliente não encontrado");
+	public String delete(LogarCliente logado) throws ClientNotFoundException {
+		ClienteEntity cliente = clienteLogado(logado);
+		     if(cliente != null) {
+				
+				for(EnderecoEntity endereco : cliente.getEndereco()){
+					enderecoService.deletarEndereco(endereco);
+				}
+			
+				clienteRepository.deleteByEmail(cliente.getEmail());
+				return "Cliente deletado com sucesso!";	
+
+		     }	
+		
+	   throw new ClientNotFoundException ("Cliente não encontrado");
 	}
+		    
 
 	public ClienteDTO logar(LogarCliente dto) throws EmailOrPasswordNotValid {
 		for(ClienteEntity cliente: findAll()) {
@@ -123,6 +134,7 @@ public class ClienteService {
 			}
 		}
 		throw new EmailOrPasswordNotValid("Email ou senha invalido");
+		//Finalizado
 	}
 	
 	public ClienteDTO recuperarSenha(String email) throws EmailOrPasswordNotValid  {
@@ -137,16 +149,16 @@ public class ClienteService {
 			SimpleEmail	emailEnviar = new SimpleEmail();
 			emailEnviar.setHostName("smtp.gmail.com");
 			emailEnviar.setSmtpPort(465);
-			emailEnviar.setAuthenticator(new DefaultAuthenticator("fred.machado.rj@gmail.com", "senha"));
+			emailEnviar.setAuthenticator(new DefaultAuthenticator("fred.machado.rj@gmail.com", "Senha"));
 			emailEnviar.setSSLOnConnect(true);
 			
 			try {
 			
-				emailEnviar.setFrom("fred.machado.pt@gmail.com");
+				emailEnviar.setFrom("fred.machado.rj@gmail.com");
 				emailEnviar.setSubject("Recuperar senha");
 				emailEnviar.setMsg("Testando grupo 1");
 				emailEnviar.addTo(emailCliente);
-				System.out.println();
+				System.out.println(emailCliente);
 				emailEnviar.send();
 				System.out.println("Enviado ");
 			}catch(EmailException e) {
@@ -157,7 +169,7 @@ public class ClienteService {
 		return clienteMapper.toDto(clienteRepository.findByEmail(email));
 
 	}
-	
+	// Essa parte é para efeitos de testes
 	public ClienteDTO verCliente(String dto) {
 		
 		ClienteEntity cliente = clienteRepository.findByEmail(dto);
