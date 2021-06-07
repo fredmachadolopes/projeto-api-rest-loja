@@ -17,37 +17,51 @@ public class EnderecoService {
 	@Autowired
 	EnderecoRepository adressRepository;
 	
-	public EnderecoEntity adicionandoDadosAoEndereco(EnderecoDTO cep) throws HasErrorInResponseCepException {
+	public EnderecoDTO adicionandoDadosAoEndereco(EnderecoDTO cep) throws HasErrorInResponseCepException {
 	
 		ViaCepEntity cepValidado = serviceCep.pegarCep(cep.getCEP());
-		EnderecoEntity endereco = new EnderecoEntity();
-		endereco.setBairro(cepValidado.getBairro());
-		endereco.setCEP(cepValidado.getCep());
-		endereco.setCidade(cepValidado.getLocalidade());
-		endereco.setEstado(cepValidado.getUf());
-		endereco.setRua(cepValidado.getLogradouro());
-		endereco.setComplemento(cep.getComplemento());
-		endereco.setNumero(cep.getNumero());
+		cep.setBairro(cepValidado.getBairro());
+		cep.setCEP(cepValidado.getCep());
+		cep.setCidade(cepValidado.getLocalidade());
+		cep.setEstado(cepValidado.getUf());
+		cep.setRua(cepValidado.getLogradouro());
+		cep.setComplemento(cep.getComplemento());
+		cep.setNumero(cep.getNumero());
 		
 		
-		return endereco;
+		return cep;
 	}
 	public EnderecoEntity saveInDataBase(EnderecoEntity endereco) {
 		
 		
 		return adressRepository.save(endereco);
 	}
-	public String  updateadress(Long id, EnderecoDTO endereco) {
+	public String  updateAdress(EnderecoDTO endereco) {
 		
-//		EnderecoEntity enderecoAtual = adressRepository.getById(id);
-//		if(endereco.getBairro() != null) {			
-//			enderecoAtual.setBairro(endereco.getBairro());
-//		}
-//		if(endereco.ge != null) {			
-//			enderecoAtual.setBairro(endereco.getBairro());
-//		}
-//		
+		EnderecoEntity enderecoAtual= adressRepository.findEndereco(endereco.getRua(), endereco.getNumero(), endereco.getComplemento());
+		if(endereco.getBairro() != null) {			
+			enderecoAtual.setBairro(endereco.getBairro());
+		}
+		if(endereco.getRua() != null) {			
+			enderecoAtual.setRua(endereco.getRua());
+		}
+		if(endereco.getNumero() != null) {			
+			enderecoAtual.setNumero(endereco.getNumero());
+		}
+		if(endereco.getComplemento() != null) {			
+			enderecoAtual.setComplemento(endereco.getComplemento());
+		}
+		if(endereco.getCidade() != null) {			
+			enderecoAtual.setCidade(endereco.getCidade());
+		}
+		if(endereco.getEstado() != null) {			
+			enderecoAtual.setEstado(endereco.getEstado());
+		}
+		if(endereco.getCEP() != null) {			
+			enderecoAtual.setCEP(endereco.getCEP());
+		}
 		
+		adressRepository.saveAndFlush(enderecoAtual);
 		return "Endereço atualizado com sucesso.";
 	}
 

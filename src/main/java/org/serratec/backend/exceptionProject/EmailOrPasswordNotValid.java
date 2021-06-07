@@ -2,6 +2,11 @@ package org.serratec.backend.exceptionProject;
 
 public class EmailOrPasswordNotValid extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public EmailOrPasswordNotValid() {
 		// TODO Auto-generated constructor stub
 	}
