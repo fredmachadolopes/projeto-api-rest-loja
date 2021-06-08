@@ -13,7 +13,7 @@ public class ServiceViaCep {
 	public ViaCepDTO pegarCep(String cep) throws HasErrorInResponseCepException {
 		
 		try {
-			
+			System.out.println(cep);
 			HttpEntity<ViaCepDTO> cepApi = new RestTemplate().getForEntity("https://viacep.com.br/ws/"+ cep +"/json", ViaCepDTO.class);
 		
 				ViaCepDTO cepDados = cepApi.getBody();

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 public class EnderecoDTO {
 
 	@NotNull
-	private String CEP;
+	private String cep;
 
 	
 	private String rua;
@@ -25,11 +25,11 @@ public class EnderecoDTO {
 	private String estado;
 
 	public String getCEP() {
-		return CEP;
+		return cep;
 	}
 
-	public void setCEP(String cEP) {
-		CEP = cEP;
+	public void setCEP(String cep) {
+		this.cep= cep;
 	}
 
 	public String getRua() {
@@ -80,6 +80,12 @@ public class EnderecoDTO {
 		this.estado = estado;
 	}
 
-	//
+	@Override
+	public String toString() {
+		return "EnderecoDTO [cep=" + cep + ", rua=" + rua + ", bairro=" + bairro + ", cidade=" + cidade + ", numero="
+				+ numero + ", complemento=" + complemento + ", estado=" + estado + "]";
+	}
+
+	
 
 }

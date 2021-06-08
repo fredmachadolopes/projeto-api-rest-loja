@@ -1,6 +1,5 @@
 package org.serratec.backend.service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.serratec.backend.entity.ClienteEntity;
 import org.serratec.backend.entity.EnderecoEntity;
 import org.serratec.backend.exceptionProject.ClientNotFoundException;
 import org.serratec.backend.exceptionProject.EmailOrPasswordNotValid;
-import org.serratec.backend.exceptionProject.HasAdressInList;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.serratec.backend.logado.LogarCliente;
 import org.serratec.backend.mapper.ClienteMapper;
@@ -97,7 +95,7 @@ public class ClienteService {
 		throw new ClientNotFoundException ("Cliente não encontrado");
 	}
 	//Esse metodo é para saber se o cliente está logado
-	public ClienteEntity clienteLogado(LogarCliente logado) {
+	public ClienteEntity clienteLogado(LogarCliente logado) throws NullPointerException  {
 		for(ClienteEntity cliente: findAll()) {
 			if(cliente.getToken().equals(logado.getToken()) && (cliente.getEmail().equals(logado.getEmail()))) {
 				

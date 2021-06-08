@@ -10,6 +10,7 @@ import org.serratec.backend.exceptionProject.AddressNotFound;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.serratec.backend.logado.LogarCliente;
 import org.serratec.backend.mapper.EnderecoMapper;
+import org.serratec.backend.repository.ClienteRepository;
 import org.serratec.backend.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class EnderecoService {
 	@Autowired
 	EnderecoMapper enderecoMapper;
 	
+	@Autowired
+	ClienteRepository clienteRepository;
+	
 	
 	public EnderecoDTO adicionandoDadosAoEndereco(EnderecoDTO cep) throws HasErrorInResponseCepException {
 	
@@ -45,9 +49,18 @@ public class EnderecoService {
 		return cep;
 	}
 	public EnderecoEntity saveInDataBase(EnderecoEntity endereco) {
-		
+	
 		
 		return addressRepository.save(endereco);
+	}
+	
+	public String adicionarNoCliente(EnderecoDTO dto, Long trocar) throws HasErrorInResponseCepException {
+		// Adicionar validacao por token e adicionar ao cliente
+		EnderecoEntity endereco = enderecoMapper.dtoToEndereco(adicionandoDadosAoEndereco(dto));
+		endereco.setCliente(clienteRepository.getById(trocar));
+          saveInDataBase(endereco);
+			return "Endereco salvo no cliente";
+ 
 	}
 	public String  updateAddress(EnderecoDTO endereco) {
 		
@@ -93,8 +106,26 @@ public class EnderecoService {
 		return updateAddress(endereco);
 	}
 	
-	public void deletarEndereco(EnderecoEntity endereco) {
-		addressRepository.deleteById(endereco.getId());
+	public boolean deletarEndereco(EnderecoEntity endereco) {
+		try {
+			addressRepository.deleteById(endereco.getId());
+			return true;
+		}catch(IllegalArgumentException erro) {
+			System.out.println("Jogar erro aqui");
+			return false;
+		}
+		
+	}
+	public String deletarEnderecoEspecifico(String token, EnderecoDTO dto) {
+		// adicionar o verificador token
+		deletarEndereco(addressRepository.findEndereco(dto.getRua(), dto.getNumero(), dto.getComplemento()));
+		return "Cliente deletado com sucesso";
+	}
+	
+	public EnderecoDTO pegarEndereco(Long id) {
+	
+		
+		return enderecoMapper.enderecoToDto(addressRepository.findById(id).get());
 	}
 
 }
