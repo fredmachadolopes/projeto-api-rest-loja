@@ -6,9 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ClienteRepository extends JpaRepository<ClienteEntity, Long> {
-//	@Query("FROM ClienteEntiy  WHERE email = :email AND senha = :senha ")
-//	ClienteEntity findCustom(@Param("email") String email, @Param("senha") String senha);
+
+	@Query("FROM ClienteEntity cliente where cliente.email like :email")
+	ClienteEntity findByEmail(@Param("email") String email);
 	
-//	@Query("FROM ClienteEntiy ")
-//	public void findCustom();
+//	@Query("DELETE FROM ClienteEntity  where email = :email")
+	void deleteByEmail(String email);
+	
+//	@Query("FROM ClienteEntity order by email")
+//	ClienteEntity findCustom();
 }
+//@Query("FROM BookEntity where categoria_id =:id")
+//List<BookEntity> findCuston(@Param("id")Long id);

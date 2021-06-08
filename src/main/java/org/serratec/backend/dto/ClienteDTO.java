@@ -1,6 +1,8 @@
 package org.serratec.backend.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
@@ -12,26 +14,25 @@ import org.hibernate.validator.constraints.br.CPF;
 
 public class ClienteDTO {
 
-	@NotNull
+
 	@Email
 	private String email;
 
 	@Size(min = 5, max = 50) // verificar quantidade de caracteres
-	@NotNull
 	private String username;
 
 	@Size(min = 5, max = 40) // deve usar MD5 no banco
 	private String senha;
 
-	@NotNull
+
 	@Size(min = 5, max = 50) 
 	private String nome;
 
-	@NotNull
+
 	@CPF
 	private String cpf;
 
-	@NotNull
+
 	@Size(min = 8, max = 11)
 	private String telefone;
 
@@ -39,6 +40,28 @@ public class ClienteDTO {
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
 	//
+	
+	private List<EnderecoDTO> endereco = new ArrayList<EnderecoDTO>();
+
+	private String token;
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public List<EnderecoDTO> getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(EnderecoDTO endereco) {
+	    
+		this.endereco.add(endereco);
+	}
+
+	public void setEnderecoList(List<EnderecoDTO> endereco) {
+	    
+		this.endereco.addAll(endereco);
+	}
 
 	public String getEmail() {
 		return email;

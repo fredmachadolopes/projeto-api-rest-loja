@@ -1,38 +1,35 @@
 package org.serratec.backend.dto;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 public class EnderecoDTO {
 
 	@NotNull
-	private String CEP;
+	private String cep;
 
-	@NotNull
+	
 	private String rua;
 
-	@NotNull
+
 	private String bairro;
 
-	@NotNull
+
 	private String cidade;
 
 	@NotNull
 	private String numero;
 
-	@NotNull
+
 	private String complemento;
 
-	@Column(name = "estado") 
-	@NotNull
 	private String estado;
 
 	public String getCEP() {
-		return CEP;
+		return cep;
 	}
 
-	public void setCEP(String cEP) {
-		CEP = cEP;
+	public void setCEP(String cep) {
+		this.cep= cep;
 	}
 
 	public String getRua() {
@@ -83,6 +80,12 @@ public class EnderecoDTO {
 		this.estado = estado;
 	}
 
-	//
+	@Override
+	public String toString() {
+		return "EnderecoDTO [cep=" + cep + ", rua=" + rua + ", bairro=" + bairro + ", cidade=" + cidade + ", numero="
+				+ numero + ", complemento=" + complemento + ", estado=" + estado + "]";
+	}
+
+	
 
 }

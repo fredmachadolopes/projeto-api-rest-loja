@@ -1,9 +1,6 @@
-package org.serratec.backend.entity;
+package org.serratec.backend.dto;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.web.client.RestTemplate;
-
-public class ViaCepEntity {
+public class ViaCepDTO {
 
 	private String cep;  
 	private String logradouro;  

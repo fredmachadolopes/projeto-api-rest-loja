@@ -1,14 +1,20 @@
 package org.serratec.backend.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -18,7 +24,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-@Table(name = "cliente")
+@Table(name = "lista_cliente")
 public class ClienteEntity {
 
 	@Id
@@ -28,7 +34,7 @@ public class ClienteEntity {
 	@NotNull
 	@Email
 	private String email;
-
+//	@Lob
 	@Size(min = 5, max = 50) // verificar quantidade de caracteres
 	@NotNull
 	private String username;
@@ -48,11 +54,39 @@ public class ClienteEntity {
 	@NotNull
 	@Size(min = 8, max = 11)
 	private String telefone; //verificar máscara
+	
 
 	@Past
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
+	
+	private LocalDateTime horaDoToken;
+	
+	public LocalDateTime getHoraDoToken() {
+		return horaDoToken;
+	}
+
+	public void setHoraDoToken(LocalDateTime horaDoToken) {
+		this.horaDoToken = horaDoToken;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public void setEndereco(List<EnderecoEntity> endereco) {
+		this.endereco = endereco;
+	}
+
+	private String token;
 	//
+	// associações entre a classe Endereco
+	@OneToMany(mappedBy = "cliente", cascade= CascadeType.ALL)
+	private List<EnderecoEntity> endereco = new ArrayList<EnderecoEntity>();
 
 	public Long getId() {
 		return Id;
@@ -118,17 +152,13 @@ public class ClienteEntity {
 		this.dtNascimento = dtNascimento;
 	}
 
-	// associações entre a classe Endereco
-	@ManyToOne
-	@JoinColumn(referencedColumnName = "id")
-	private EnderecoEntity endereco;
 
-	public EnderecoEntity getEndereco() {
+	public List<EnderecoEntity> getEndereco() {
 		return endereco;
 	}
 
 	public void setEndereco(EnderecoEntity endereco) {
-		this.endereco = endereco;
+		this.endereco.add(endereco);
 	}
 
 }
