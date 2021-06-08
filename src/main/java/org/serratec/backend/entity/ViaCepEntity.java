@@ -1,8 +1,5 @@
 package org.serratec.backend.entity;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.web.client.RestTemplate;
-
 public class ViaCepEntity {
 
 	private String cep;  

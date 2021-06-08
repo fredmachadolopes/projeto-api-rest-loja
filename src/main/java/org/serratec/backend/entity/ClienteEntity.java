@@ -1,6 +1,7 @@
 package org.serratec.backend.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -119,16 +121,15 @@ public class ClienteEntity {
 	}
 
 	// associações entre a classe Endereco
-	@ManyToOne
-	@JoinColumn(referencedColumnName = "id")
-	private EnderecoEntity endereco;
+	
+	@OneToMany(mappedBy = "cliente")
+	private List<EnderecoEntity> endereco;
 
-	public EnderecoEntity getEndereco() {
+	public List<EnderecoEntity> getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(EnderecoEntity endereco) {
+	public void setEndereco(List<EnderecoEntity> endereco) {
 		this.endereco = endereco;
 	}
-
 }

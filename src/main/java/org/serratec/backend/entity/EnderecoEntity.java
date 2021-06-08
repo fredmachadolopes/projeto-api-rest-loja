@@ -7,11 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Entity
 @Table(name = "endereco")
@@ -110,14 +110,16 @@ public class EnderecoEntity {
 	}
 
 	// associação com a classe Cliente
-	@OneToMany(mappedBy = "endereco")
-	private List<ClienteEntity> cliente;
 
-	public List<ClienteEntity> getCliente() {
+	@ManyToOne
+	@JoinColumn(referencedColumnName = "id")
+	private ClienteEntity cliente;
+
+	public ClienteEntity getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(List<ClienteEntity> cliente) {
+	public void setCliente(ClienteEntity cliente) {
 		this.cliente = cliente;
 	}
 }
