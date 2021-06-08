@@ -39,7 +39,7 @@ public class ClienteDTO {
 	@Past
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
-	//
+	
 	
 	private List<EnderecoDTO> endereco = new ArrayList<EnderecoDTO>();
 

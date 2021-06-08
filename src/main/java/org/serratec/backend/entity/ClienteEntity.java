@@ -11,9 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -77,9 +74,13 @@ public class ClienteEntity {
 	public void setToken(String token) {
 		this.token = token;
 	}
-
+	//
 	public void setEndereco(List<EnderecoEntity> endereco) {
 		this.endereco = endereco;
+	}
+
+	public List<EnderecoEntity> getEndereco() {
+		return endereco;
 	}
 
 	private String token;
@@ -87,7 +88,7 @@ public class ClienteEntity {
 	// associações entre a classe Endereco
 	@OneToMany(mappedBy = "cliente", cascade= CascadeType.ALL)
 	private List<EnderecoEntity> endereco = new ArrayList<EnderecoEntity>();
-
+//
 	public Long getId() {
 		return Id;
 	}
@@ -151,14 +152,4 @@ public class ClienteEntity {
 	public void setDtNascimento(LocalDate dtNascimento) {
 		this.dtNascimento = dtNascimento;
 	}
-
-
-	public List<EnderecoEntity> getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(EnderecoEntity endereco) {
-		this.endereco.add(endereco);
-	}
-
 }

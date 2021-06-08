@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+//>>>>>>> drika
 
 @Entity
 @Table(name = "endereco")
@@ -108,7 +109,15 @@ public class EnderecoEntity {
 		this.estado = estado;
 	}
 
-
+//<<<<<<< HEAD
+//
+//=======
+//	// associação com a classe Cliente
+//
+//	@ManyToOne
+//	@JoinColumn(referencedColumnName = "id")
+//	private ClienteEntity cliente;
+//>>>>>>> drika
 
 	public ClienteEntity getCliente() {
 		return cliente;
