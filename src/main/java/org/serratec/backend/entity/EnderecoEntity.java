@@ -1,48 +1,61 @@
 package org.serratec.backend.entity;
 
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.serratec.backend.gerarIdentificador.GeradorDeIdentificacao;
+
 
 @Entity
 @Table(name = "endereco")
 public class EnderecoEntity {
 
+
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 
 	// a única coisa que será digitada consumir informações do viaCep
-	@NotNull
+
 	private String CEP;
 
-	@NotNull
 	private String rua;
+	
+	private String identificador = new GeradorDeIdentificacao().retornaIdentificador();
 
-	@NotNull
+	public String getToken() {
+		return identificador;
+	}
+
+	public void setToken(String token) {
+		this.identificador = token;
+	}
+
 	private String bairro;
 
-	@NotNull
 	private String cidade;
 
-	@NotNull
+
 	private String numero;
 
-	@NotNull
+
 	private String complemento;
 
 	@Column(name = "estado") //
-	@NotNull
 	private String estado;
+	
+	// associação com a classe Cliente
+	@ManyToOne(cascade= CascadeType.ALL) 
+	@JoinColumn(name="cliente_id", referencedColumnName="id",nullable=false)
+	private ClienteEntity cliente;
 
 	//
 	public Long getId() {
@@ -109,15 +122,14 @@ public class EnderecoEntity {
 		this.estado = estado;
 	}
 
-	// associação com a classe Cliente
-	@OneToMany(mappedBy = "endereco")
-	private List<ClienteEntity> cliente;
 
-	public List<ClienteEntity> getCliente() {
+	public ClienteEntity getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(List<ClienteEntity> cliente) {
+	public void setCliente(ClienteEntity cliente) {
 		this.cliente = cliente;
 	}
+	
+	
 }

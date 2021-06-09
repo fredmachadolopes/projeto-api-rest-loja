@@ -1,14 +1,17 @@
 package org.serratec.backend.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -28,7 +31,7 @@ public class ClienteEntity {
 	@NotNull
 	@Email
 	private String email;
-
+//	@Lob
 	@Size(min = 5, max = 50) // verificar quantidade de caracteres
 	@NotNull
 	private String username;
@@ -48,12 +51,65 @@ public class ClienteEntity {
 	@NotNull
 	@Size(min = 8, max = 11)
 	private String telefone; //verificar máscara
+	private String token;
+	
+	private boolean habilitado = true;
 
 	@Past
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
-	//
+	
+	private LocalDateTime horaDoToken;
+	
+	// associações entre a classe Endereco
+	@OneToMany(mappedBy = "cliente", cascade= CascadeType.ALL)
+	private List<EnderecoEntity> endereco = new ArrayList<EnderecoEntity>();
+	
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	private List<PedidoEntity> pedidos = new ArrayList<PedidoEntity>();
+	
+	public List<PedidoEntity> getPedidos() {
+		return pedidos;
+	}
 
+	public void setPedidos(PedidoEntity pedidos) {
+		this.pedidos.add(pedidos);
+	}
+
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+
+	public LocalDateTime getHoraDoToken() {
+		return horaDoToken;
+	}
+
+	public void setHoraDoToken(LocalDateTime horaDoToken) {
+		this.horaDoToken = horaDoToken;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+	//
+	public void setEndereco(List<EnderecoEntity> endereco) {
+		this.endereco = endereco;
+	}
+
+	public List<EnderecoEntity> getEndereco() {
+		return endereco;
+	}
+
+	//
+//
 	public Long getId() {
 		return Id;
 	}
@@ -118,17 +174,5 @@ public class ClienteEntity {
 		this.dtNascimento = dtNascimento;
 	}
 
-	// associações entre a classe Endereco
-	@ManyToOne
-	@JoinColumn(referencedColumnName = "id")
-	private EnderecoEntity endereco;
-
-	public EnderecoEntity getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(EnderecoEntity endereco) {
-		this.endereco = endereco;
-	}
-
+	
 }
