@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.serratec.backend.gerarIdentificador.GeradorDeIdentificacao;
+import org.serratec.backend.util.GeradorDeIdentificacao;
 
 
 @Entity

@@ -1,4 +1,4 @@
-package org.serratec.backend.gerarIdentificador;
+package org.serratec.backend.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

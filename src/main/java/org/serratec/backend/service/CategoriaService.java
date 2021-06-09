@@ -57,6 +57,7 @@ public class CategoriaService {
 			if (dto.getDescricao() != null) {
 				categoria.setDescricao(dto.getDescricao());
 			}
+			categoria.setHabilitado(true);
 
 			categoriaRepository.saveAndFlush(categoria);
 			return dto;
@@ -65,11 +66,13 @@ public class CategoriaService {
 	}
 
 	// DELETE
-	public String delete(Long id) {
-		if (verificarId(id)) {
-			categoriaRepository.deleteById(id);
+	public String delete(CategoriaDTO dto) {
+		CategoriaEntity categoria = categoriaRepository.getByIdentificador(dto.getIdentificador());
+	
+			categoria.setHabilitado(false);
+			categoriaRepository.saveAndFlush(categoria);
 			return "Categoria deletada com sucesso!";
-		}
-		return "Categoria não encontrado!";
+		
+		
 	}
 }

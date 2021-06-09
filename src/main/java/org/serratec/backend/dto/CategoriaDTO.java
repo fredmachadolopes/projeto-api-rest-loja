@@ -3,7 +3,7 @@ package org.serratec.backend.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.serratec.backend.gerarIdentificador.GeradorDeIdentificacao;
+import org.serratec.backend.util.GeradorDeIdentificacao;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CategoriaDTO {

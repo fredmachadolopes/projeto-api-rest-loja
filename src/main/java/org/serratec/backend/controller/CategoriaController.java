@@ -7,6 +7,7 @@ import org.serratec.backend.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,5 +35,10 @@ public class CategoriaController {
 	@PutMapping("/atualizarCategoria")
 	public ResponseEntity<CategoriaDTO> atualizarCategoria(@RequestBody CategoriaDTO categoria){
 		return new  ResponseEntity<CategoriaDTO>( categoriaService.update(categoria), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("deletar")
+	public ResponseEntity<String> deletarCategoria(@RequestBody CategoriaDTO categoria){
+		return new ResponseEntity<String>(categoriaService.delete(categoria), HttpStatus.OK);
 	}
 }

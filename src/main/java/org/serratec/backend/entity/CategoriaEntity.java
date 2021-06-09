@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.serratec.backend.gerarIdentificador.GeradorDeIdentificacao;
+import org.serratec.backend.util.GeradorDeIdentificacao;
 
 @Entity
 @Table(name = "categoria")
@@ -32,6 +32,15 @@ public class CategoriaEntity {
 	@NotNull
 	public String identificador = new GeradorDeIdentificacao().retornaIdentificador();
 	
+	public boolean habilitado = true;
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+
 	public String getIdentificador() {
 		return identificador;
 	}
