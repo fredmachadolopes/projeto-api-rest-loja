@@ -57,6 +57,18 @@ public class CategoriaEntity {
 		return Id;
 	}
 
+	public List<ProdutoEntity> getProduto() {
+		return produto;
+	}
+
+	public void setProduto(List<ProdutoEntity> produto) {
+		this.produto = produto;
+	}
+	
+	public void setProdutoUni(ProdutoEntity produto) {
+		this.produto.add(produto);
+	}
+
 	public void setId(Long id) {
 		Id = id;
 	}

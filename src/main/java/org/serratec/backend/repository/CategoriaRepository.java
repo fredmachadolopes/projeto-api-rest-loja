@@ -10,4 +10,6 @@ public interface CategoriaRepository extends JpaRepository<CategoriaEntity, Long
 	@Query("FROM CategoriaEntity where identificador = ?1")
 	CategoriaEntity getByIdentificador(@Param ("valor")String valor);
 
+	
+
 }

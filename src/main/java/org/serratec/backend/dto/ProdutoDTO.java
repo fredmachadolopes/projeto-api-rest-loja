@@ -6,6 +6,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 public class ProdutoDTO {
+
 	@Null
 	@Size(min = 5, max = 100)
 	private String nome;
@@ -20,7 +21,7 @@ public class ProdutoDTO {
 	@Null
 	private Integer qtdEstoque;
 
-	@Null
+	
 	private LocalDate dtCadastroProduto;
 
 	private String imagem;
@@ -75,4 +76,9 @@ public class ProdutoDTO {
 		this.imagem = imagem;
 	}
 
+	@Override
+	public String toString() {
+		return "ProdutoDTO [nome=" + nome + ", descricao=" + descricao + ", preco=" + preco + ", qtdEstoque="
+				+ qtdEstoque + ", dtCadastroProduto=" + dtCadastroProduto + ", imagem=" + imagem + "]";
+	}
 }

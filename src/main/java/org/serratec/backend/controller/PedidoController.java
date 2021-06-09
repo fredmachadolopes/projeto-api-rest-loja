@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -30,8 +31,8 @@ public class PedidoController {
 	}
 
 	@PostMapping("/criarPedido")
-	public ResponseEntity<PedidoDTO> create(@RequestBody PedidoDTO dto) {
-		return new ResponseEntity<PedidoDTO>(pedidoService.create(dto), HttpStatus.OK);
+	public ResponseEntity<PedidoDTO> create(@RequestParam(name="cliente") Long id) {
+		return new ResponseEntity<PedidoDTO>(pedidoService.create(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deletarPedido/{id}")
@@ -43,5 +44,7 @@ public class PedidoController {
 	public ResponseEntity<PedidoDTO> atualizarCliente(@PathVariable Long id, @RequestBody PedidoDTO dto) {
 		return new ResponseEntity<PedidoDTO>(pedidoService.update(id, dto), HttpStatus.OK);
 	}
+	
+
 
 }

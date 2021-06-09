@@ -18,6 +18,7 @@ import org.serratec.backend.logado.LogarCliente;
 import org.serratec.backend.mapper.ClienteMapper;
 import org.serratec.backend.mapper.EnderecoMapper;
 import org.serratec.backend.repository.ClienteRepository;
+import org.serratec.backend.util.GeradorDeIdentificacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class ClienteService {
 	@Autowired
 	ClienteRepository clienteRepository;
 
+	@Autowired
+	GeradorDeIdentificacao gerardorId;
+	
 	@Autowired
 	ClienteMapper clienteMapper;
 
@@ -41,20 +45,12 @@ public class ClienteService {
 		return clienteRepository.findAll();
 	}
 
-	public String gerarToken() {
-		String token = "";
-		for (int i = 0; i < 3; i++) {
-			char letra = (char) Math.round((Math.random() * 25) + 65);
-			int num = (int) Math.round(Math.random() * 9);
-			token += num + "" + letra;
-		}
-		return token;
-	}
 
 	// POST
 	public ClienteDTO create(ClienteDTO dto) throws HasErrorInResponseCepException {
 		ClienteEntity cliente = clienteMapper.toEntity(dto);
-		System.out.println(dto.getEndereco().size());
+		
+		
 		for (EnderecoDTO endercoParaTratar : dto.getEndereco()) {
 			EnderecoEntity endereco = enderecoMapper
 					.dtoToEndereco(enderecoService.adicionandoDadosAoEndereco(endercoParaTratar));
@@ -62,7 +58,7 @@ public class ClienteService {
 			endereco.setCliente(cliente);
 			enderecoService.saveInDataBase(endereco);
 		}
-		return clienteMapper.toDto(clienteRepository.save(cliente));
+		return clienteMapper.toDto(cliente);
 		// Finalizado
 	}
 
@@ -125,7 +121,7 @@ public class ClienteService {
 	public ClienteDTO logar(LogarCliente dto) throws EmailOrPasswordNotValid {
 		for (ClienteEntity cliente : findAll()) {
 			if (cliente.getSenha().equals(dto.getSenha()) && (cliente.getEmail().equals(dto.getEmail()))) {
-				cliente.setToken(gerarToken());
+				cliente.setToken(gerardorId.retornaIdentificador());
 				cliente.setHoraDoToken(LocalDateTime.now());
 				cliente.setHabilitado(true);// Debater sobre isso novamente;
 				return clienteMapper.toDto(clienteRepository.saveAndFlush(cliente));

@@ -16,12 +16,11 @@ public class ClienteMapper {
 		ClienteDTO clienteDto = new ClienteDTO();
 		clienteDto.setEmail(clienteEntity.getEmail());
 		clienteDto.setUsername(clienteEntity.getUsername());
-//		clienteDto.setSenha(clienteEntity.getSenha());
 		clienteDto.setNome(clienteEntity.getNome());
 		clienteDto.setCpf(clienteEntity.getCpf());
 		clienteDto.setTelefone(clienteEntity.getTelefone());
 		clienteDto.setDtNascimento(clienteEntity.getDtNascimento());
-		clienteDto.setEnderecoList(enderecoMapper.listaEnderecotoDTO(clienteEntity.getEndereco()));
+		clienteDto.setEndereco(enderecoMapper.listaEnderecotoDTO(clienteEntity.getEndereco()));
 
 		return clienteDto;
 	}

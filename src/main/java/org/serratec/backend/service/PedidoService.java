@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.backend.dto.PedidoDTO;
+import org.serratec.backend.entity.ClienteEntity;
 import org.serratec.backend.entity.PedidoEntity;
 import org.serratec.backend.mapper.PedidoMapper;
+import org.serratec.backend.repository.ClienteRepository;
 import org.serratec.backend.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class PedidoService {
 
 	@Autowired
 	PedidoMapper pedidoMapper;
+	@Autowired
+	ClienteRepository clienteRepository;
 
 	public Boolean verificarId(Long id) {
 		return pedidoRepository.existsById(id);
@@ -45,8 +49,14 @@ public class PedidoService {
 	}
 
 	// POST
-	public PedidoDTO create(PedidoDTO dto) {
-		return pedidoMapper.toDto(pedidoRepository.save(pedidoMapper.toEntity(dto)));
+	public PedidoDTO create(Long id) {
+		// cliente autentidado para pegar ID
+		
+		ClienteEntity cliente = clienteRepository.getById(id);
+		PedidoEntity pedido = new PedidoEntity();
+		pedido.setCliente(cliente);
+		
+		return pedidoMapper.toDto(pedidoRepository.save(pedido));
 	}
 
 	// PUT
@@ -90,4 +100,8 @@ public class PedidoService {
 		}
 		return "Pedido não encontrado!";
 	}
+	
+//	public PedidoDTO finalizarPedido(Cliente id) {
+//		clienteRepository
+//	}
 }

@@ -53,12 +53,8 @@ public class ClienteDTO {
 	public List<EnderecoDTO> getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(EnderecoDTO endereco) {
-	    
-		this.endereco.add(endereco);
-	}
 
-	public void setEnderecoList(List<EnderecoDTO> endereco) {
+	public void setEndereco(List<EnderecoDTO> endereco) {
 	    
 		this.endereco.addAll(endereco);
 	}

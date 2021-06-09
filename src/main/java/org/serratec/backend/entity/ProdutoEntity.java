@@ -37,8 +37,8 @@ public class ProdutoEntity {
 	@Null
 	private Integer qtdEstoque;
 	
-	@Null
-	private LocalDate dtCadastroProduto;
+
+	private LocalDate dtCadastroProduto = LocalDate.now();
 	
 	public CategoriaEntity getCategoria() {
 		return categoria;

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.backend.dto.ProdutoDTO;
+import org.serratec.backend.entity.CategoriaEntity;
 import org.serratec.backend.entity.ProdutoEntity;
 import org.serratec.backend.mapper.ProdutoMapper;
+import org.serratec.backend.repository.CategoriaRepository;
 import org.serratec.backend.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class ProdutoService {
 
 	@Autowired
 	ProdutoRepository produtoRepository;
+	
+	@Autowired
+	CategoriaRepository categoriaRepository;
 
 	@Autowired
 	ProdutoMapper produtoMapper;
@@ -46,8 +51,13 @@ public class ProdutoService {
 	}
 
 	// POST
-	public ProdutoDTO create(ProdutoDTO dto) {
-		return produtoMapper.toDto(produtoRepository.save(produtoMapper.toEntity(dto)));
+	public ProdutoDTO create(ProdutoDTO dto, String categoria) {
+
+		ProdutoEntity produto = produtoMapper.toEntity(dto);
+		CategoriaEntity categoriaProvisoria = categoriaRepository.getByIdentificador(categoria);
+		categoriaProvisoria.setProdutoUni(produto);
+		produto.setCategoria(categoriaProvisoria);
+		return produtoMapper.toDto(produtoRepository.save(produto));
 	}
 
 	// PUT

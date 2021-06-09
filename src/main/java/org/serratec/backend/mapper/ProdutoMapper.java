@@ -29,7 +29,7 @@ public class ProdutoMapper {
 		produtoEntity.setDescricao(produtoDto.getDescricao());
 		produtoEntity.setPreco(produtoDto.getPreco());
 		produtoEntity.setQtdEstoque(produtoDto.getQtdEstoque());
-		produtoEntity.setDtCadastroProduto(produtoDto.getDtCadastroProduto());
+//		produtoEntity.setDtCadastroProduto(produtoDto.getDtCadastroProduto());
 
 		return produtoEntity;
 	}

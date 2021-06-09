@@ -105,5 +105,13 @@ public class PedidoEntity {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
+
+	public ClienteEntity getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteEntity cliente) {
+		this.cliente = cliente;
+	}
 	
 }

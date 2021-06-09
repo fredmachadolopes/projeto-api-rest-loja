@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/produto")
@@ -30,8 +31,8 @@ public class ProdutoController {
 	}
 
 	@PostMapping("/criarProduto")
-	public ResponseEntity<ProdutoDTO> create(@RequestBody ProdutoDTO dto) {
-		return new ResponseEntity<ProdutoDTO>(produtoService.create(dto), HttpStatus.OK);
+	public ResponseEntity<ProdutoDTO> create(@RequestBody ProdutoDTO dto, @RequestParam(name = "categoria" )String categoria) {
+		return new ResponseEntity<ProdutoDTO>(produtoService.create(dto, categoria), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deletarProduto/{id}")

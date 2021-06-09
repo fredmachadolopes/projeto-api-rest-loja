@@ -16,8 +16,6 @@ import org.serratec.backend.util.GeradorDeIdentificacao;
 @Entity
 @Table(name = "endereco")
 public class EnderecoEntity {
-
-
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
