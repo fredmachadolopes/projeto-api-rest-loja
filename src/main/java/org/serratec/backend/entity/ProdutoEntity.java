@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
@@ -23,18 +24,18 @@ public class ProdutoEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Null
+	@NotNull
 	@Size(min=5, max=100)
 	private String nome;
 	
-	@Null
+	@NotNull
 	@Size(min=5, max=100)
 	private String descricao;
 	
-	@Null
+	@NotNull
 	private Double preco;
 	
-	@Null
+	@NotNull
 	private Integer qtdEstoque;
 	
 
@@ -54,8 +55,8 @@ public class ProdutoEntity {
 
 	private String imagem;
 	
-	@ManyToOne
-	@JoinColumn(name = "categoria_id", referencedColumnName = "id", nullable=false)
+	@ManyToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private CategoriaEntity categoria;
 	
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
@@ -124,6 +125,13 @@ public class ProdutoEntity {
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
+	}
+
+	@Override
+	public String toString() {
+		return "ProdutoEntity [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", preco=" + preco
+				+ ", qtdEstoque=" + qtdEstoque + ", dtCadastroProduto=" + dtCadastroProduto + ", imagem=" + imagem
+				+ ", categoria=" + categoria + ", produtosPedidos=" + produtosPedidos + "]";
 	}
 	
 }

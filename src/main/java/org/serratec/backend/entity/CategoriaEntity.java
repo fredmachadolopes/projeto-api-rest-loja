@@ -1,5 +1,6 @@
 package org.serratec.backend.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -50,7 +51,7 @@ public class CategoriaEntity {
 	}
 
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-	private List<ProdutoEntity> produto;
+	private List<ProdutoEntity> produto = new ArrayList<ProdutoEntity>();
 	//
 
 	public Long getId() {
@@ -61,11 +62,8 @@ public class CategoriaEntity {
 		return produto;
 	}
 
-	public void setProduto(List<ProdutoEntity> produto) {
-		this.produto = produto;
-	}
 	
-	public void setProdutoUni(ProdutoEntity produto) {
+	public void setProduto(ProdutoEntity produto) {
 		this.produto.add(produto);
 	}
 

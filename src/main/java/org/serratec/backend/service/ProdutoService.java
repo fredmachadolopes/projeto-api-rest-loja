@@ -52,12 +52,13 @@ public class ProdutoService {
 
 	// POST
 	public ProdutoDTO create(ProdutoDTO dto, String categoria) {
-
 		ProdutoEntity produto = produtoMapper.toEntity(dto);
+		
 		CategoriaEntity categoriaProvisoria = categoriaRepository.getByIdentificador(categoria);
-		categoriaProvisoria.setProdutoUni(produto);
 		produto.setCategoria(categoriaProvisoria);
-		return produtoMapper.toDto(produtoRepository.save(produto));
+		produtoRepository.save(produto);
+		System.out.println(produto);
+		return produtoMapper.toDto(produtoRepository.saveAndFlush(produto));
 	}
 
 	// PUT
