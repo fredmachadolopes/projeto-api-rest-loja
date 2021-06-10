@@ -23,13 +23,13 @@ public class PedidoEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-//	@NotNull
-	private Integer numeroPedido; //
+	private static int numero = 1;
+	@NotNull
+	private Integer numeroPedido =  numero; //
 	
 	//private List<String>listaProdutoPedido;
 	
-	private Double valorTotalPedido; //campo calculado
+	private Double valorTotalPedido = 0.0; //campo calculado
 	
 	private LocalDate dataPedido = LocalDate.now(); //data atual
 	
@@ -41,24 +41,28 @@ public class PedidoEntity {
 	@JoinColumn(name="cliente_id", referencedColumnName = "id", nullable=false)
 	private ClienteEntity cliente;
 	
-	@OneToMany
-	private List<ProdutoEntity> produtos = new ArrayList<ProdutoEntity>(); 
+//	@OneToMany
+//	@JoinColumn
+//	private List<ProdutoEntity> produtos = new ArrayList<ProdutoEntity>(); 
 	
-	public List<ProdutoEntity> getProdutos() {
-		return produtos;
+	public PedidoEntity() {
+		numero++;
 	}
+//	public List<ProdutoEntity> getProdutos() {
+//		return produtos;
+//	}
 	
-	public void setProduto(ProdutoEntity produto) {
-		this.produtos.add(produto);
-	}
-
-	public void setProdutos(List<ProdutoEntity> produtos) {
-		this.produtos = produtos;
-	}
+//	public void setProduto(ProdutoEntity produto) {
+//		this.produtos.add(produto);
+//	}
+//
+//	public void setProdutos(List<ProdutoEntity> produtos) {
+//		this.produtos = produtos;
+//	}
 
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-	private List<ProdutosPedidosEntity> produtosPedidos; 
+	private List<ProdutosPedidosEntity> produtosPedidos = new ArrayList<ProdutosPedidosEntity>(); 
 	
 	public List<ProdutosPedidosEntity> getProdutosPedidos() {
 		return produtosPedidos;

@@ -1,5 +1,8 @@
 package org.serratec.backend.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.serratec.backend.dto.ClienteDTO;
 import org.serratec.backend.entity.ClienteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +45,14 @@ public class ClienteMapper {
 		clienteDto.setUsername(clienteEntity.getUsername());
 		clienteDto.setToken(clienteEntity.getToken());
 		return clienteDto;
+	}
+	
+	public List<ClienteDTO> toListDto(ArrayList<ClienteEntity> clienteEntity){
+		List<ClienteDTO> listaClienteDTO = new ArrayList<ClienteDTO>();
+		for(ClienteEntity cliente : clienteEntity) {
+			
+			listaClienteDTO.add(toDtoPaginaDados(cliente));
+		}
+		return listaClienteDTO;
 	}
 }

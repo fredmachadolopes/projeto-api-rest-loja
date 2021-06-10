@@ -32,6 +32,7 @@ public class PedidoController {
 
 	@PostMapping("/criarPedido")
 	public ResponseEntity<PedidoDTO> create(@RequestParam(name="cliente") Long id) {
+		System.out.println(id);
 		return new ResponseEntity<PedidoDTO>(pedidoService.create(id), HttpStatus.OK);
 	}
 

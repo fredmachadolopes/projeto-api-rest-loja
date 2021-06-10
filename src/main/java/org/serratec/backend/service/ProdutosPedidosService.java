@@ -1,11 +1,10 @@
 package org.serratec.backend.service;
 
-import java.util.List;
-
 import org.serratec.backend.dto.CompraDTO;
 import org.serratec.backend.entity.PedidoEntity;
 import org.serratec.backend.entity.ProdutoEntity;
 import org.serratec.backend.entity.ProdutosPedidosEntity;
+import org.serratec.backend.exceptionProject.ItemNaoEncontrado;
 import org.serratec.backend.repository.PedidoRepository;
 import org.serratec.backend.repository.ProdutoRepository;
 import org.serratec.backend.repository.ProdutosPedidosRepository;
@@ -49,7 +48,7 @@ public class ProdutosPedidosService {
 			adicionarProduto.setQuantidade(compra.getQuantidade());
 			adicionarProduto.setPreco(produtoPedido.getPreco());
 			produtosPedidosRepository.save(adicionarProduto);
-			return "Produto adicionado na lista";
+			return "Produto adicionado na lista " + " produto: "+ produtoPedido.getNome() +" preço "+ produtoPedido.getPreco();
 		}
 		
 		
@@ -60,7 +59,7 @@ public class ProdutosPedidosService {
 		pedidoRepository.save(pedidoLista);
 		adicionarProduto.setPreco(produtoPedido.getPreco());
 		produtosPedidosRepository.save(adicionarProduto);
-		return "Produto adicionado na lista";
+		return "Produto adicionado na lista " + " produto: "+ produtoPedido.getNome() +" preço "+ produtoPedido.getPreco();
 		
 	}
 
@@ -71,7 +70,7 @@ public class ProdutosPedidosService {
 		if(pedido.getQuantidade() != null) {	
 			produtoPedido.setQuantidade(pedido.getQuantidade());
 			produtosPedidosRepository.saveAndFlush(produtoPedido);
-			return "Atualizado com sucesso";
+			return "Atualizado com sucesso" + " produto: "+ produtoPedido.getProduto().getNome() +" preço "+ produtoPedido.getPreco();
 		}
 		
 		return "Nesse acesso só se atualiza quantidade";

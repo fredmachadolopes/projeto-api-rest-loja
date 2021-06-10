@@ -52,6 +52,7 @@ public class ProdutoService {
 
 	// POST
 	public ProdutoDTO create(ProdutoDTO dto) {
+		System.out.println("criar produto");
 		ProdutoEntity produto = produtoMapper.toEntity(dto);
 		produto.setCategoria(categoriaRepository.getByName(dto.getCategoria()));		
 		return produtoMapper.toDto(produtoRepository.save(produto));

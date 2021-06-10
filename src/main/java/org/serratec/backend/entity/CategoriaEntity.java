@@ -19,6 +19,10 @@ import org.serratec.backend.util.GeradorDeIdentificacao;
 @Table(name = "categoria")
 public class CategoriaEntity {
 
+	public void setProduto(List<ProdutoEntity> produto) {
+		this.produto = produto;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
@@ -34,6 +38,9 @@ public class CategoriaEntity {
 	public String identificador = new GeradorDeIdentificacao().retornaIdentificador();
 	
 	public boolean habilitado = true;
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	private List<ProdutoEntity> produto = new ArrayList<ProdutoEntity>();
+	//
 	public boolean isHabilitado() {
 		return habilitado;
 	}
@@ -50,9 +57,6 @@ public class CategoriaEntity {
 		this.identificador = identificador;
 	}
 
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-	private List<ProdutoEntity> produto = new ArrayList<ProdutoEntity>();
-	//
 
 	public Long getId() {
 		return Id;

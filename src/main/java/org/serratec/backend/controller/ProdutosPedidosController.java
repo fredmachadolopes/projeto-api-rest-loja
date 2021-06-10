@@ -1,10 +1,9 @@
 package org.serratec.backend.controller;
 
 import org.serratec.backend.dto.CompraDTO;
-import org.serratec.backend.service.ItemNaoEncontrado;
+import org.serratec.backend.exceptionProject.ItemNaoEncontrado;
 import org.serratec.backend.service.ProdutosPedidosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

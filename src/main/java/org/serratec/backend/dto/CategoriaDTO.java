@@ -1,8 +1,12 @@
 package org.serratec.backend.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.serratec.backend.entity.ProdutoEntity;
 import org.serratec.backend.util.GeradorDeIdentificacao;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,10 +24,20 @@ public class CategoriaDTO {
 
 	public String identificador ;
 
+	private List<ProdutoDTO> produto = new ArrayList<ProdutoDTO>();
+	//
 	//
 
 	public String getIdentificador() {
 		return identificador;
+	}
+
+	public List<ProdutoDTO> getProduto() {
+		return produto;
+	}
+
+	public void setProduto(List<ProdutoDTO> produto) {
+		this.produto = produto;
 	}
 
 	public void setIdentificador(String identificador) {

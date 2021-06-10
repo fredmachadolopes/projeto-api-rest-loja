@@ -47,19 +47,24 @@ public class ClienteService {
 
 
 	// POST
-	public ClienteDTO create(ClienteDTO dto) throws HasErrorInResponseCepException {
-		ClienteEntity cliente = clienteMapper.toEntity(dto);
-		
-		
-		for (EnderecoDTO endercoParaTratar : dto.getEndereco()) {
-			EnderecoEntity endereco = enderecoMapper
-					.dtoToEndereco(enderecoService.adicionandoDadosAoEndereco(endercoParaTratar));
-			//cliente.setEndereco(endereco);
-			endereco.setCliente(cliente);
-			enderecoService.saveInDataBase(endereco);
+	public ClienteDTO create(ClienteDTO dto) throws HasErrorInResponseCepException, ErroNaEntradaDosDados {
+
+		if(dto.getTelefone().length() > 8 && dto.getCpf().length() == 14 ) {
+			
+			ClienteEntity cliente = clienteMapper.toEntity(dto);
+			
+			
+			for (EnderecoDTO endercoParaTratar : dto.getEndereco()) {
+				EnderecoEntity endereco = enderecoMapper
+						.dtoToEndereco(enderecoService.adicionandoDadosAoEndereco(endercoParaTratar));
+				//cliente.setEndereco(endereco);
+				endereco.setCliente(cliente);
+				enderecoService.saveInDataBase(endereco);
+			}
+			return clienteMapper.toDto(cliente);
 		}
-		return clienteMapper.toDto(cliente);
-		// Finalizado
+		
+		throw new ErroNaEntradaDosDados("Seu CPF tem de estar no formato xxx.xxx.xxx-xx e seu telefone mais de 8 digitos");
 	}
 
 	// PUT
@@ -88,7 +93,7 @@ public class ClienteService {
 				}
 
 				clienteRepository.saveAndFlush(cliente);
-				return dto;
+				return clienteMapper.toDto(cliente);
 			}
 		}
 		throw new ClientNotFoundException("Cliente não encontrado");
@@ -127,7 +132,7 @@ public class ClienteService {
 		for (ClienteEntity cliente : findAll()) {
 			if (cliente.getSenha().equals(dto.getSenha()) && (cliente.getEmail().equals(dto.getEmail()))) {
 				cliente.setToken(gerardorId.retornaIdentificador());
-				cliente.setHoraDoToken(LocalDateTime.now());
+//				cliente.setHoraDoToken(LocalDateTime.now());
 				cliente.setHabilitado(true);// Debater sobre isso novamente;
 				return clienteMapper.toDto(clienteRepository.saveAndFlush(cliente));
 			}

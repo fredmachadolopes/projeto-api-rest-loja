@@ -18,22 +18,22 @@ public class ClienteDTO {
 	@Email
 	private String email;
 
-	@Size(min = 5, max = 50) // verificar quantidade de caracteres
+	@Size(min = 3, max = 50) // verificar quantidade de caracteres
 	private String username;
 
-	@Size(min = 5, max = 40) // deve usar MD5 no banco
+	@Size(min = 4, max = 40) // deve usar MD5 no banco
 	private String senha;
 
 
-	@Size(min = 5, max = 50) 
+	@Size(min = 3, max = 50) 
 	private String nome;
 
 
-	@CPF
+
 	private String cpf;
 
 
-	@Size(min = 8, max = 11)
+
 	private String telefone;
 
 	@Past

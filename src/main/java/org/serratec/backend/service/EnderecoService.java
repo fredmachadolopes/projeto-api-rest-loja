@@ -8,10 +8,12 @@ import org.serratec.backend.entity.ClienteEntity;
 import org.serratec.backend.entity.EnderecoEntity;
 import org.serratec.backend.exceptionProject.AddressNotFound;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
+import org.serratec.backend.exceptionProject.NaoHaEnderecoComEsseIdentificador;
 import org.serratec.backend.logado.LogarCliente;
 import org.serratec.backend.mapper.EnderecoMapper;
 import org.serratec.backend.repository.ClienteRepository;
 import org.serratec.backend.repository.EnderecoRepository;
+import org.serratec.backend.util.ServiceViaCep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

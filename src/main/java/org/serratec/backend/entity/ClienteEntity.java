@@ -59,7 +59,7 @@ public class ClienteEntity {
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
 	
-	private LocalDateTime horaDoToken;
+//	private LocalDateTime horaDoToken;
 	
 	// associações entre a classe Endereco
 	@OneToMany(mappedBy = "cliente", cascade= CascadeType.ALL)
@@ -84,13 +84,13 @@ public class ClienteEntity {
 		this.habilitado = habilitado;
 	}
 
-	public LocalDateTime getHoraDoToken() {
-		return horaDoToken;
-	}
+//	public LocalDateTime getHoraDoToken() {
+//		return horaDoToken;
+//	}
 
-	public void setHoraDoToken(LocalDateTime horaDoToken) {
-		this.horaDoToken = horaDoToken;
-	}
+//	public void setHoraDoToken(LocalDateTime horaDoToken) {
+//		this.horaDoToken = horaDoToken;
+//	}
 
 	public String getToken() {
 		return token;

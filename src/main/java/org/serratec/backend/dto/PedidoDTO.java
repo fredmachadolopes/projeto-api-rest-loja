@@ -9,7 +9,8 @@ import org.serratec.backend.entity.ProdutosPedidosEntity;
 public class PedidoDTO {
 	private Integer numeroPedido; //
 
-	private List<ProdutosPedidosEntity> listaProdutoPedido;
+	private List<CompraDTO> listaProdutoPedido = new ArrayList<CompraDTO>() ;
+
 
 	private Double valorTotalPedido; // campo calculado
 
@@ -21,6 +22,13 @@ public class PedidoDTO {
 	
 	private List<ProdutoDTO> produtos = new ArrayList<ProdutoDTO>(); 
 	
+	public List<CompraDTO> getListaProdutoPedido() {
+		return listaProdutoPedido;
+	}
+	
+	public void setListaProdutoPedido(List<CompraDTO> listaProdutoPedido) {
+		this.listaProdutoPedido = listaProdutoPedido;
+	}
 	public List<ProdutoDTO> getProdutos() {
 		return produtos;
 	}
@@ -39,14 +47,6 @@ public class PedidoDTO {
 
 	public void setNumeroPedido(Integer numeroPedido) {
 		this.numeroPedido = numeroPedido;
-	}
-
-	public List<ProdutosPedidosEntity> getListaProdutoPedido() {
-		return listaProdutoPedido;
-	}
-
-	public void setListaProdutoPedido(List<ProdutosPedidosEntity> listaProdutoPedido) {
-		this.listaProdutoPedido = listaProdutoPedido;
 	}
 
 	public Double getValorTotalPedido() {

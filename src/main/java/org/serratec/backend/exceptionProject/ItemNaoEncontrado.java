@@ -1,4 +1,4 @@
-package org.serratec.backend.service;
+package org.serratec.backend.exceptionProject;
 
 public class ItemNaoEncontrado extends Exception {
 

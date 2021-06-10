@@ -7,6 +7,7 @@ import org.serratec.backend.exceptionProject.HasAdressInList;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.serratec.backend.logado.LogarCliente;
 import org.serratec.backend.service.ClienteService;
+import org.serratec.backend.service.ErroNaEntradaDosDados;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ClienteController {
 	ClienteService clienteService;
 	
 	@PostMapping("/criarCliente")
-	public ResponseEntity<ClienteDTO>create(@RequestBody ClienteDTO dto) throws HasErrorInResponseCepException{
+	public ResponseEntity<ClienteDTO>create(@RequestBody ClienteDTO dto) throws HasErrorInResponseCepException, ErroNaEntradaDosDados{
 		// Está funcionando mas não passa mais de um endereço por vez, perguntar ao André
 
 		return new ResponseEntity<ClienteDTO>(clienteService.create(dto),HttpStatus.OK);

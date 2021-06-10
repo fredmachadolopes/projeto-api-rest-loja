@@ -1,4 +1,4 @@
-package org.serratec.backend.service;
+package org.serratec.backend.util;
 
 
 import org.serratec.backend.dto.ViaCepDTO;
