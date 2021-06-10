@@ -1,12 +1,15 @@
 package org.serratec.backend.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.serratec.backend.entity.ProdutosPedidosEntity;
 
 public class PedidoDTO {
 	private Integer numeroPedido; //
 
-	private List<String> listaProdutoPedido;
+	private List<ProdutosPedidosEntity> listaProdutoPedido;
 
 	private Double valorTotalPedido; // campo calculado
 
@@ -15,7 +18,20 @@ public class PedidoDTO {
 	private LocalDate dataEntrega; // cálculo para a data
 
 	private Boolean status; // ?
-	//
+	
+	private List<ProdutoDTO> produtos = new ArrayList<ProdutoDTO>(); 
+	
+	public List<ProdutoDTO> getProdutos() {
+		return produtos;
+	}
+	
+	public void setProduto(ProdutoDTO produto) {
+		this.produtos.add(produto);
+	}
+
+	public void setProdutos(List<ProdutoDTO> produto) {
+		this.produtos = produto;
+	}
 
 	public Integer getNumeroPedido() {
 		return numeroPedido;
@@ -25,11 +41,11 @@ public class PedidoDTO {
 		this.numeroPedido = numeroPedido;
 	}
 
-	public List<String> getListaProdutoPedido() {
+	public List<ProdutosPedidosEntity> getListaProdutoPedido() {
 		return listaProdutoPedido;
 	}
 
-	public void setListaProdutoPedido(List<String> listaProdutoPedido) {
+	public void setListaProdutoPedido(List<ProdutosPedidosEntity> listaProdutoPedido) {
 		this.listaProdutoPedido = listaProdutoPedido;
 	}
 

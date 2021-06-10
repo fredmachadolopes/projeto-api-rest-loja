@@ -16,11 +16,11 @@ public class ProdutosPedidosEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "pedido_id", referencedColumnName = "id", nullable=false)
 	private PedidoEntity pedido;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "produto_id", referencedColumnName = "id", nullable=false)
 	private ProdutoEntity produto;
 	@NotNull

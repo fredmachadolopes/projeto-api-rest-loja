@@ -29,7 +29,7 @@ public class ClienteController {
 	@PostMapping("/criarCliente")
 	public ResponseEntity<ClienteDTO>create(@RequestBody ClienteDTO dto) throws HasErrorInResponseCepException{
 		// Está funcionando mas não passa mais de um endereço por vez, perguntar ao André
-		System.out.println("Passou");
+
 		return new ResponseEntity<ClienteDTO>(clienteService.create(dto),HttpStatus.OK);
 	}
 	

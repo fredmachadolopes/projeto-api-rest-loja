@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long>{
 	
-	@Query("FROM ProdutoEntity WHERE nome = ?1 ")
+	@Query("FROM ProdutoEntity WHERE nome LIKE ?1 ")
 	ProdutoEntity getByName(@Param("produto")String produto);
 
 }

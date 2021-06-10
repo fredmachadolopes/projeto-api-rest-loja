@@ -2,19 +2,23 @@ package org.serratec.backend.mapper;
 
 import org.serratec.backend.dto.PedidoDTO;
 import org.serratec.backend.entity.PedidoEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PedidoMapper {
+	
+	@Autowired
+	ProdutoMapper produtoMapper;
 
 	public PedidoDTO toDto(PedidoEntity pedidoEntity) {
 		PedidoDTO pedidoDto = new PedidoDTO();
 		pedidoDto.setNumeroPedido(pedidoEntity.getNumeroPedido());
-		//pedidoDto.setListaProdutoPedido(pedidoEntity.getListaProdutoPedido()); // passa uma lista de produtos
+		pedidoDto.setProdutos(produtoMapper.toDtoList(pedidoEntity.getProdutos()) ); // passa uma lista de produtos
 		pedidoDto.setValorTotalPedido(pedidoEntity.getValorTotalPedido());
-		pedidoDto.setDataPedido(pedidoEntity.getDataPedido().now()); // verificar se é assim que passa a data atual
+		pedidoDto.setDataPedido(pedidoEntity.getDataPedido()); // verificar se é assim que passa a data atual
 		pedidoDto.setDataEntrega(pedidoEntity.getDataEntrega());
-		// pedidoDto.setStatus(pedidoEntity.getStatus());
+	    pedidoDto.setStatus(pedidoEntity.getStatus());
 		return pedidoDto;
 	}
 

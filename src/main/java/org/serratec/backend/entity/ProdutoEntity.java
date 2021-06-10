@@ -55,7 +55,7 @@ public class ProdutoEntity {
 
 	private String imagem;
 	
-	@ManyToOne(cascade= CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private CategoriaEntity categoria;
 	

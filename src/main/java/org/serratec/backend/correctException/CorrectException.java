@@ -5,6 +5,7 @@ import org.serratec.backend.exceptionProject.ClientNotFoundException;
 import org.serratec.backend.exceptionProject.EmailOrPasswordNotValid;
 import org.serratec.backend.exceptionProject.HasAdressInList;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
+import org.serratec.backend.service.NaoHaEnderecoComEsseIdentificador;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -36,6 +37,13 @@ public class CorrectException {
 	public ResponseEntity<String> notFoundAddress(AddressNotFound erro){
 		return ResponseEntity.noContent().header("x-erro-msg", erro.getMessage()).build();
 	}
+	
+	@ExceptionHandler(NaoHaEnderecoComEsseIdentificador.class)
+	public ResponseEntity<String> notFoundAddress(NaoHaEnderecoComEsseIdentificador erro){
+		return ResponseEntity.noContent().header("x-erro-msg", erro.getMessage()).build();
+	}
+	
+	
 	
 
 	

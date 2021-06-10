@@ -25,14 +25,14 @@ public class ProdutoController {
 	@Autowired
 	ProdutoService produtoService;
 
-	@GetMapping("{/listarProdutos}")
+	@GetMapping("/listarProdutos")
 	public ResponseEntity<List<ProdutoDTO>> findAll() {
 		return new ResponseEntity<List<ProdutoDTO>>(produtoService.findAll(), HttpStatus.OK);
 	}
 
 	@PostMapping("/criarProduto")
-	public ResponseEntity<ProdutoDTO> create(@RequestBody ProdutoDTO dto, @RequestParam(name = "categoria" )String categoria) {
-		return new ResponseEntity<ProdutoDTO>(produtoService.create(dto, categoria), HttpStatus.OK);
+	public ResponseEntity<ProdutoDTO> create(@RequestBody ProdutoDTO dto) {
+		return new ResponseEntity<ProdutoDTO>(produtoService.create(dto), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deletarProduto/{id}")
@@ -41,7 +41,7 @@ public class ProdutoController {
 	}
 
 	@PutMapping("/atualizarProduto/{id}")
-	public ResponseEntity<ProdutoDTO> atualizarCliente(@PathVariable Long id, @RequestBody ProdutoDTO dto) {
+	public ResponseEntity<ProdutoDTO> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoDTO dto) {
 		return new ResponseEntity<ProdutoDTO>(produtoService.update(id, dto), HttpStatus.OK);
 	}
 

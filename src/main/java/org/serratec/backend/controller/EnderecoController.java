@@ -7,6 +7,7 @@ import org.serratec.backend.exceptionProject.AddressNotFound;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.serratec.backend.logado.LogarCliente;
 import org.serratec.backend.service.EnderecoService;
+import org.serratec.backend.service.NaoHaEnderecoComEsseIdentificador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,14 +40,15 @@ public class EnderecoController {
 		return new ResponseEntity< List<EnderecoDTO>>(enderecoService.listOfAddress(logado), HttpStatus.OK);
 	}
 	
-	@PutMapping("/atualizarEndereco/{token}")
-	public ResponseEntity<String> atualizarEndereco(@PathVariable String token,@RequestBody EnderecoDTO endereco){
-		return new ResponseEntity<String>(enderecoService.updateSpecificAddress(endereco, token), HttpStatus.OK);	
+	@PutMapping("/atualizarEndereco/{identificador}")
+	public ResponseEntity<String> atualizarEndereco(@PathVariable String identificador,@RequestBody EnderecoDTO endereco) throws NaoHaEnderecoComEsseIdentificador{
+		System.out.println(identificador);
+		return new ResponseEntity<String>(enderecoService.updateSpecificAddress(endereco, identificador), HttpStatus.OK);	
 	}
 	
 	@DeleteMapping("/deletarEndereco")
-	public ResponseEntity<String> deletarEnderecoEspecifico(@RequestParam("teste") String token, @RequestBody EnderecoDTO dto){
-		return new ResponseEntity<String>(enderecoService.deletarEnderecoEspecifico(token, dto), HttpStatus.OK);
+	public ResponseEntity<String> deletarEnderecoEspecifico(@RequestParam("identificador") String identificador){
+		return new ResponseEntity<String>(enderecoService.deletarEnderecoEspecifico(identificador), HttpStatus.OK);
 	}
 
 }

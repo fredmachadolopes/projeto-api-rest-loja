@@ -25,7 +25,7 @@ public class PedidoController {
 	@Autowired
 	PedidoService pedidoService;
 
-	@GetMapping("{/listarPedidos}")
+	@GetMapping("/listarPedidos")
 	public ResponseEntity<List<PedidoDTO>> findAll() {
 		return new ResponseEntity<List<PedidoDTO>>(pedidoService.findAll(), HttpStatus.OK);
 	}
@@ -39,7 +39,8 @@ public class PedidoController {
 	public ResponseEntity<String> deletarPedido(@PathVariable Long id) {
 		return new ResponseEntity<String>(pedidoService.delete(id), HttpStatus.OK);
 	}
-
+	
+	//Rever essa funcionalidade
 	@PutMapping("/atualizarPedido/{id}")
 	public ResponseEntity<PedidoDTO> atualizarCliente(@PathVariable Long id, @RequestBody PedidoDTO dto) {
 		return new ResponseEntity<PedidoDTO>(pedidoService.update(id, dto), HttpStatus.OK);

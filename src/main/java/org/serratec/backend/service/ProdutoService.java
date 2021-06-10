@@ -51,21 +51,17 @@ public class ProdutoService {
 	}
 
 	// POST
-	public ProdutoDTO create(ProdutoDTO dto, String categoria) {
+	public ProdutoDTO create(ProdutoDTO dto) {
 		ProdutoEntity produto = produtoMapper.toEntity(dto);
-		
-		CategoriaEntity categoriaProvisoria = categoriaRepository.getByIdentificador(categoria);
-		produto.setCategoria(categoriaProvisoria);
-		produtoRepository.save(produto);
-		System.out.println(produto);
-		return produtoMapper.toDto(produtoRepository.saveAndFlush(produto));
+		produto.setCategoria(categoriaRepository.getByName(dto.getCategoria()));		
+		return produtoMapper.toDto(produtoRepository.save(produto));
 	}
 
 	// PUT
 	public ProdutoDTO update(Long id, ProdutoDTO dto) {
 		if (verificarId(id)) {
-			ProdutoEntity produto = produtoMapper.toEntity(this.findById(id));
-
+			ProdutoEntity produto = produtoRepository.getById(id);
+			System.out.println(produto.getId());
 			if (dto.getNome() != null) {
 				produto.setNome(dto.getNome());
 			}
@@ -83,10 +79,7 @@ public class ProdutoService {
 				produto.setDtCadastroProduto(dto.getDtCadastroProduto()); // deve ser acrescentado os dias
 			}
 
-			produtoRepository.saveAndFlush(produto);
-
-			return dto;
-			// return produtoMapper.toDto(produtoRepository.save(produto));
+			 return produtoMapper.toDto(produtoRepository.saveAndFlush(produto));
 		}
 		return null; // ADICIONAR TRATAMENTO DE ERRO
 	}

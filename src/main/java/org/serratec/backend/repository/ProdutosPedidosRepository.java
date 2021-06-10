@@ -1,4 +1,4 @@
-package org.serratec.backend.service;
+package org.serratec.backend.repository;
 
 import org.serratec.backend.entity.ProdutosPedidosEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

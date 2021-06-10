@@ -13,7 +13,7 @@ public interface EnderecoRepository extends JpaRepository<EnderecoEntity, Long>{
 	
 	@Query("FROM EnderecoEntity where cliente_id = ?1")
 	List<EnderecoEntity> findAllByIdCliente(@Param ("cliente_id") Long id);
-	@Query("FROM EnderecoEntity where token = ?1")
-	public EnderecoEntity findByToken(@Param("token") String token);
+	@Query("FROM EnderecoEntity where identificador = ?1")
+	public EnderecoEntity findByIdentificador(@Param("identificador") String identificador);
 
 }

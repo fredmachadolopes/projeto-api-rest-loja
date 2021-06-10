@@ -1,6 +1,7 @@
 package org.serratec.backend.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,7 +24,7 @@ public class PedidoEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
+//	@NotNull
 	private Integer numeroPedido; //
 	
 	//private List<String>listaProdutoPedido;
@@ -36,10 +37,26 @@ public class PedidoEntity {
 	
 	private Boolean status = true; // ?
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="cliente_id", referencedColumnName = "id", nullable=false)
 	private ClienteEntity cliente;
 	
+	@OneToMany
+	private List<ProdutoEntity> produtos = new ArrayList<ProdutoEntity>(); 
+	
+	public List<ProdutoEntity> getProdutos() {
+		return produtos;
+	}
+	
+	public void setProduto(ProdutoEntity produto) {
+		this.produtos.add(produto);
+	}
+
+	public void setProdutos(List<ProdutoEntity> produtos) {
+		this.produtos = produtos;
+	}
+
+
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ProdutosPedidosEntity> produtosPedidos; 
 	
@@ -115,4 +132,11 @@ public class PedidoEntity {
 		this.cliente = cliente;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "PedidoEntity [id=" + id + ", numeroPedido=" + numeroPedido + ", valorTotalPedido=" + valorTotalPedido
+				+ ", dataPedido=" + dataPedido + ", dataEntrega=" + dataEntrega + ", status=" + status + ", cliente="
+				+ cliente + ", produtosPedidos=" + produtosPedidos + "]";
+	}
 }

@@ -95,12 +95,17 @@ public class ClienteService {
 	}
 
 	// Esse metodo é para saber se o cliente está logado
-	public ClienteEntity clienteLogado(LogarCliente logado) throws NullPointerException {
-		for (ClienteEntity cliente : findAll()) {
+	public ClienteEntity clienteLogado(LogarCliente logado) {
+		try {
+			for (ClienteEntity cliente : findAll()) {
+				
 			if (cliente.getToken().equals(logado.getToken()) && (cliente.getEmail().equals(logado.getEmail()))) {
 
 				return cliente;
 			}
+		}
+		}catch(NullPointerException erro) {
+			System.out.println("Senha ou email inválido");
 		}
 		return null;
 	}

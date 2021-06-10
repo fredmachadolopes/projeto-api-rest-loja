@@ -63,33 +63,37 @@ public class EnderecoService {
 			return "Endereco salvo no cliente";
  
 	}
-	public String  updateAddress(EnderecoDTO endereco, String token) {
-		
-		EnderecoEntity enderecoAtual= addressRepository.findByToken(token);
-		if(endereco.getBairro() != null) {			
-			enderecoAtual.setBairro(endereco.getBairro());
+	public String  updateAddress(EnderecoDTO endereco, String identificador) throws NaoHaEnderecoComEsseIdentificador {
+		try {
+			
+			EnderecoEntity enderecoAtual= addressRepository.findByIdentificador(identificador);
+			if(endereco.getBairro() != null) {			
+				enderecoAtual.setBairro(endereco.getBairro());
+			}
+			if(endereco.getRua() != null) {			
+				enderecoAtual.setRua(endereco.getRua());
+			}
+			if(endereco.getNumero() != null) {			
+				enderecoAtual.setNumero(endereco.getNumero());
+			}
+			if(endereco.getComplemento() != null) {			
+				enderecoAtual.setComplemento(endereco.getComplemento());
+			}
+			if(endereco.getCidade() != null) {			
+				enderecoAtual.setCidade(endereco.getCidade());
+			}
+			if(endereco.getEstado() != null) {			
+				enderecoAtual.setEstado(endereco.getEstado());
+			}
+			if(endereco.getCEP() != null) {			
+				enderecoAtual.setCEP(endereco.getCEP());
+			}
+			
+			addressRepository.saveAndFlush(enderecoAtual);
+			return "Endereço atualizado com sucesso.";
+		}catch(Exception erro) {
+			throw new NaoHaEnderecoComEsseIdentificador("Endereco não localizado verifique seu codigo");
 		}
-		if(endereco.getRua() != null) {			
-			enderecoAtual.setRua(endereco.getRua());
-		}
-		if(endereco.getNumero() != null) {			
-			enderecoAtual.setNumero(endereco.getNumero());
-		}
-		if(endereco.getComplemento() != null) {			
-			enderecoAtual.setComplemento(endereco.getComplemento());
-		}
-		if(endereco.getCidade() != null) {			
-			enderecoAtual.setCidade(endereco.getCidade());
-		}
-		if(endereco.getEstado() != null) {			
-			enderecoAtual.setEstado(endereco.getEstado());
-		}
-		if(endereco.getCEP() != null) {			
-			enderecoAtual.setCEP(endereco.getCEP());
-		}
-		
-		addressRepository.saveAndFlush(enderecoAtual);
-		return "Endereço atualizado com sucesso.";
 	}
 	// Esse metodo retorna para o controller uma lista de endereco para a consulta.
 	public List<EnderecoDTO> listOfAddress(LogarCliente logado) throws AddressNotFound{
@@ -102,9 +106,9 @@ public class EnderecoService {
 	       throw new AddressNotFound("Não há endereço disponivel;");
 	}
 	
-	public String updateSpecificAddress(EnderecoDTO endereco, String token) {
+	public String updateSpecificAddress(EnderecoDTO endereco, String identificador) throws NaoHaEnderecoComEsseIdentificador {
 		//Falta implementar o token
-		return updateAddress(endereco, token);
+		return updateAddress(endereco, identificador);
 	}
 	
 	public boolean deletarEndereco(EnderecoEntity endereco) {
@@ -117,9 +121,9 @@ public class EnderecoService {
 		}
 		
 	}
-	public String deletarEnderecoEspecifico(String token, EnderecoDTO dto) {
+	public String deletarEnderecoEspecifico(String identificador) {
 		// adicionar o verificador token
-		deletarEndereco(addressRepository.findByToken(token));
+		deletarEndereco(addressRepository.findByIdentificador(identificador));
 		return "Endereco deletado com sucesso";
 	}
 	
