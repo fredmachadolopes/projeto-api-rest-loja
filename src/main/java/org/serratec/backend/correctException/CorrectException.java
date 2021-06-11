@@ -1,6 +1,7 @@
 package org.serratec.backend.correctException;
 
 import org.serratec.backend.exceptionProject.AddressNotFound;
+import org.serratec.backend.exceptionProject.CategoriaIsFalse;
 import org.serratec.backend.exceptionProject.ClientNotFoundException;
 import org.serratec.backend.exceptionProject.EmailOrPasswordNotValid;
 import org.serratec.backend.exceptionProject.HasAdressInList;
@@ -41,6 +42,11 @@ public class CorrectException {
 	
 	@ExceptionHandler(ErroNaEntradaDosDados.class)
 	public ResponseEntity<String> dadosIncorretos(ErroNaEntradaDosDados erro){
+		return ResponseEntity.noContent().header("x-erro-msg", erro.getMessage()).build();
+	}
+	
+	@ExceptionHandler(CategoriaIsFalse.class)
+	public ResponseEntity<String> categoriaDeletada(CategoriaIsFalse erro){
 		return ResponseEntity.noContent().header("x-erro-msg", erro.getMessage()).build();
 	}
 	

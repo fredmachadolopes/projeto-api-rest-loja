@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -52,13 +53,14 @@ public class ProdutoEntity {
 	public void setProdutosPedidos(List<ProdutosPedidosEntity> produtosPedidos) {
 		this.produtosPedidos = produtosPedidos;
 	}
-
-	private String imagem;
+	
+	@Lob
+	private byte[] imagem;
 	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private CategoriaEntity categoria;
-	
+
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
 	private List<ProdutosPedidosEntity> produtosPedidos; 
 	
@@ -119,11 +121,11 @@ public class ProdutoEntity {
 		this.dtCadastroProduto = dtCadastroProduto;
 	}
 
-	public String getImagem() {
+	public byte[] getImagem() {
 		return imagem;
 	}
 
-	public void setImagem(String imagem) {
+	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
 

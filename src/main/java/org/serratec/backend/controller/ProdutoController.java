@@ -3,6 +3,7 @@ package org.serratec.backend.controller;
 import java.util.List;
 
 import org.serratec.backend.dto.ProdutoDTO;
+import org.serratec.backend.exceptionProject.CategoriaIsFalse;
 import org.serratec.backend.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class ProdutoController {
 	}
 
 	@PostMapping("/criarProduto")
-	public ResponseEntity<ProdutoDTO> create(@RequestBody ProdutoDTO dto) {
+	public ResponseEntity<ProdutoDTO> create(@RequestBody ProdutoDTO dto) throws CategoriaIsFalse {
 		return new ResponseEntity<ProdutoDTO>(produtoService.create(dto), HttpStatus.OK);
 	}
 

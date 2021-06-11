@@ -6,6 +6,7 @@ import java.util.List;
 import org.serratec.backend.dto.ProdutoDTO;
 import org.serratec.backend.entity.CategoriaEntity;
 import org.serratec.backend.entity.ProdutoEntity;
+import org.serratec.backend.exceptionProject.CategoriaIsFalse;
 import org.serratec.backend.mapper.ProdutoMapper;
 import org.serratec.backend.repository.CategoriaRepository;
 import org.serratec.backend.repository.ProdutoRepository;
@@ -51,11 +52,21 @@ public class ProdutoService {
 	}
 
 	// POST
-	public ProdutoDTO create(ProdutoDTO dto) {
-		System.out.println("criar produto");
-		ProdutoEntity produto = produtoMapper.toEntity(dto);
-		produto.setCategoria(categoriaRepository.getByName(dto.getCategoria()));		
-		return produtoMapper.toDto(produtoRepository.save(produto));
+	public ProdutoDTO create(ProdutoDTO dto) throws CategoriaIsFalse {
+		try {
+			
+			ProdutoEntity produto = produtoMapper.toEntity(dto);
+			CategoriaEntity categoria = categoriaRepository.getByName(dto.getCategoria());
+			if(categoria.isHabilitado()) {
+				produto.setCategoria(categoria);
+				return produtoMapper.toDto(produtoRepository.save(produto));
+			}
+			throw new CategoriaIsFalse("Esta categoria está desabilitada");
+		}catch(NullPointerException erro) {
+			
+			throw new CategoriaIsFalse("Está categoria não existe");
+		}
+		
 	}
 
 	// PUT
