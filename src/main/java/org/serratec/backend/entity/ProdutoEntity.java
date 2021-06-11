@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -39,9 +40,19 @@ public class ProdutoEntity {
 	@NotNull
 	private Integer qtdEstoque;
 	
-
 	private LocalDate dtCadastroProduto = LocalDate.now();
 	
+	@OneToOne(mappedBy = "produto", cascade = CascadeType.ALL)
+	private ImagemEntity imagem;
+
+	public ImagemEntity getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(ImagemEntity imagem) {
+		this.imagem = imagem;
+	}
+
 	public CategoriaEntity getCategoria() {
 		return categoria;
 	}
@@ -53,9 +64,6 @@ public class ProdutoEntity {
 	public void setProdutosPedidos(List<ProdutosPedidosEntity> produtosPedidos) {
 		this.produtosPedidos = produtosPedidos;
 	}
-	
-	@Lob
-	private byte[] imagem;
 	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
@@ -121,19 +129,6 @@ public class ProdutoEntity {
 		this.dtCadastroProduto = dtCadastroProduto;
 	}
 
-	public byte[] getImagem() {
-		return imagem;
-	}
 
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
-	}
-
-	@Override
-	public String toString() {
-		return "ProdutoEntity [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", preco=" + preco
-				+ ", qtdEstoque=" + qtdEstoque + ", dtCadastroProduto=" + dtCadastroProduto + ", imagem=" + imagem
-				+ ", categoria=" + categoria + ", produtosPedidos=" + produtosPedidos + "]";
-	}
 	
 }

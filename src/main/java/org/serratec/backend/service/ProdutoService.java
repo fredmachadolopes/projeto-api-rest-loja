@@ -1,5 +1,6 @@
 package org.serratec.backend.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.serratec.backend.repository.CategoriaRepository;
 import org.serratec.backend.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProdutoService {
@@ -24,6 +26,11 @@ public class ProdutoService {
 
 	@Autowired
 	ProdutoMapper produtoMapper;
+	
+	@Autowired
+	ImagemService imagemService;
+	
+
 
 //
 	public Boolean verificarId(Long id) {
@@ -46,18 +53,20 @@ public class ProdutoService {
 
 	public ProdutoDTO findById(Long id) {
 		if (verificarId(id)) {
-			return produtoMapper.toDto(produtoRepository.findById(id).get());
+			ProdutoEntity produto = produtoRepository.findById(id).get();
+			return produtoMapper.toDto(produto);
 		}
 		return null; // ADICIONAR TRATAMENTO DE ERRO
 	}
 
 	// POST
-	public ProdutoDTO create(ProdutoDTO dto) throws CategoriaIsFalse {
+	public ProdutoDTO create(ProdutoDTO dto, MultipartFile file) throws CategoriaIsFalse, IOException {
 		try {
 			
 			ProdutoEntity produto = produtoMapper.toEntity(dto);
 			CategoriaEntity categoria = categoriaRepository.getByName(dto.getCategoria());
 			if(categoria.isHabilitado()) {
+				imagemService.create(produto, file);
 				produto.setCategoria(categoria);
 				return produtoMapper.toDto(produtoRepository.save(produto));
 			}

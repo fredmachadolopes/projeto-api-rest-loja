@@ -32,16 +32,16 @@ public class ClienteEntity {
 	@Email
 	private String email;
 //	@Lob
-	@Size(min = 5, max = 50) // verificar quantidade de caracteres
+	@Size(min = 3, max = 50) // verificar quantidade de caracteres
 	@NotNull
 	private String username;
 
-	@Size(min = 5, max = 40) // deve usar MD5 no banco
+	@Size(min = 3, max = 40) // deve usar MD5 no banco
 	@NotNull
 	private String senha;
 
 	@NotNull
-	@Size(min = 5, max = 50)
+	@Size(min = 3, max = 50)
 	private String nome;
 
 	@NotNull

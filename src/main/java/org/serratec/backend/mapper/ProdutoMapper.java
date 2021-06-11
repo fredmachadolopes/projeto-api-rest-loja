@@ -1,26 +1,30 @@
 package org.serratec.backend.mapper;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.backend.dto.ProdutoDTO;
 import org.serratec.backend.entity.ProdutoEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Component
 public class ProdutoMapper {
 
 	public ProdutoDTO toDto(ProdutoEntity produtoEntity) {
-
+        
 		ProdutoDTO produtoDto = new ProdutoDTO();
-		//
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/produto/{id}/imagem/")
+				.buildAndExpand(produtoEntity.getId()).toUri();
 		produtoDto.setNome(produtoEntity.getNome());
 		produtoDto.setDescricao(produtoEntity.getDescricao());
 		produtoDto.setPreco(produtoEntity.getPreco());
 		produtoDto.setQtdEstoque(produtoEntity.getQtdEstoque());
 		produtoDto.setCategoria(produtoEntity.getCategoria().getNome());
 		produtoDto.setDtCadastroProduto(produtoEntity.getDtCadastroProduto());
-		// não coloquei a imagem ***
+		produtoDto.setUrl(uri.toString());
+	
 		return produtoDto;
 	}
 

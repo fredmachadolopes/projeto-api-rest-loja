@@ -24,17 +24,9 @@ public class ClienteDTO {
 
 	@Size(min = 4, max = 40) // deve usar MD5 no banco
 	private String senha;
-
-
 	@Size(min = 3, max = 50) 
 	private String nome;
-
-
-
 	private String cpf;
-
-
-
 	private String telefone;
 
 	@Past

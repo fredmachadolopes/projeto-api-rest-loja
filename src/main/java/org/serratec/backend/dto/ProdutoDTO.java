@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+import org.serratec.backend.util.GeradorDeIdentificacao;
+
 public class ProdutoDTO {
 
 	@Null
-	@Size(min = 5, max = 100)
+	@Size(min = 3, max = 100)
 	private String nome;
 
 	@Null
@@ -23,6 +25,18 @@ public class ProdutoDTO {
 
 	private String categoria;
 	
+	private String url;
+	
+	private String codigoProduto = new GeradorDeIdentificacao().retornaIdentificador();
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public String getCategoria() {
 		return categoria;
 	}
@@ -31,9 +45,8 @@ public class ProdutoDTO {
 		this.categoria = categoria;
 	}
 
-	private LocalDate dtCadastroProduto;
+	private LocalDate dtCadastroProduto = LocalDate.now();
 
-	private String imagem;
 
 	//
 
@@ -77,17 +90,10 @@ public class ProdutoDTO {
 		this.dtCadastroProduto = dtCadastroProduto;
 	}
 
-	public String getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
-	}
 
 	@Override
 	public String toString() {
 		return "ProdutoDTO [nome=" + nome + ", descricao=" + descricao + ", preco=" + preco + ", qtdEstoque="
-				+ qtdEstoque + ", dtCadastroProduto=" + dtCadastroProduto + ", imagem=" + imagem + "]";
+				+ qtdEstoque + ", dtCadastroProduto=" + dtCadastroProduto + "]";
 	}
 }

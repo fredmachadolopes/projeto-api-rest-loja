@@ -13,6 +13,7 @@ import org.serratec.backend.entity.ClienteEntity;
 import org.serratec.backend.entity.EnderecoEntity;
 import org.serratec.backend.exceptionProject.ClientNotFoundException;
 import org.serratec.backend.exceptionProject.EmailOrPasswordNotValid;
+import org.serratec.backend.exceptionProject.ErroNaEntradaDosDados;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.serratec.backend.logado.LogarCliente;
 import org.serratec.backend.mapper.ClienteMapper;
@@ -42,7 +43,8 @@ public class ClienteService {
 
 	// GET
 	public List<ClienteEntity> findAll() {
-		return clienteRepository.findAll();
+		List<ClienteEntity> clienteLista = clienteRepository.findAll();
+		return clienteLista;
 	}
 
 
@@ -69,7 +71,7 @@ public class ClienteService {
 
 	// PUT
 	public ClienteDTO update(ClienteDTO dto) throws ClientNotFoundException {
-		// falta adicionar a verificacao do horario do token
+		
 		for (ClienteEntity cliente : findAll()) {
 			if (cliente.getToken().equals(dto.getToken()) && (cliente.getEmail().equals(dto.getEmail()))) {
 				if (dto.getEmail() != null) {
@@ -91,7 +93,7 @@ public class ClienteService {
 				if (dto.getDtNascimento() != null) {
 					cliente.setDtNascimento(dto.getDtNascimento());
 				}
-
+				System.out.println("passou");
 				clienteRepository.saveAndFlush(cliente);
 				return clienteMapper.toDto(cliente);
 			}
@@ -152,7 +154,7 @@ public class ClienteService {
 		SimpleEmail emailEnviar = new SimpleEmail();
 		emailEnviar.setHostName("smtp.gmail.com");
 		emailEnviar.setSmtpPort(465);
-		emailEnviar.setAuthenticator(new DefaultAuthenticator("fred.machado.rj@gmail.com", ""));
+		emailEnviar.setAuthenticator(new DefaultAuthenticator("fred.machado.rj@gmail.com", "1F9r8e6d?"));
 		emailEnviar.setSSLOnConnect(true);
 
 		try {
@@ -160,7 +162,7 @@ public class ClienteService {
 			emailEnviar.setFrom("fred.machado.rj@gmail.com");
 			emailEnviar.setSubject("Recuperar senha");
 			emailEnviar.setMsg("Testando grupo 1");
-			emailEnviar.addTo(emailCliente);
+			emailEnviar.addTo(email);
 			System.out.println(emailCliente);
 			emailEnviar.send();
 			System.out.println("Enviado ");
