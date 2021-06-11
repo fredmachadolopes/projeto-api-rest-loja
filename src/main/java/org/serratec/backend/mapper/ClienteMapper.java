@@ -13,6 +13,8 @@ public class ClienteMapper {
 	
 	@Autowired
 	EnderecoMapper enderecoMapper;
+	@Autowired
+	PedidoMapper pedidoMapper;
 
 	public ClienteDTO toDtoPaginaDados(ClienteEntity clienteEntity) {
 
@@ -22,6 +24,7 @@ public class ClienteMapper {
 		clienteDto.setNome(clienteEntity.getNome());
 		clienteDto.setCpf(clienteEntity.getCpf());
 		clienteDto.setTelefone(clienteEntity.getTelefone());
+		clienteDto.setPedidos(pedidoMapper.toDto(clienteEntity.getPedidos()));
 		clienteDto.setDtNascimento(clienteEntity.getDtNascimento());
 		clienteDto.setEndereco(enderecoMapper.listaEnderecotoDTO(clienteEntity.getEndereco()));
 

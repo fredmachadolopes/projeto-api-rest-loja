@@ -46,7 +46,7 @@ public class PedidoMapper {
 		return Total ;
 	}
 	
-	public List<PedidoDTO> toDto(ArrayList<PedidoEntity> pedidoEntity) {
+	public List<PedidoDTO> toDto(List<PedidoEntity> pedidoEntity) {
 		System.out.println("teste Mapper produto");
 		List<PedidoDTO> pedidoDto = new ArrayList<PedidoDTO>();
 	

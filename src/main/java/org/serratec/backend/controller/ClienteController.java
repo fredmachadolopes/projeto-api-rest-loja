@@ -60,7 +60,6 @@ public class ClienteController {
 	
 	@GetMapping("/dadosLogado")
 	public ResponseEntity<ClienteDTO> dadosLogado(@RequestParam(name = "email") String dto){
-	
 		return new ResponseEntity<ClienteDTO>(clienteService.verCliente(dto), HttpStatus.OK);
 		
 	}
