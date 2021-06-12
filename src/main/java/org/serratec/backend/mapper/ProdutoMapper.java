@@ -24,7 +24,7 @@ public class ProdutoMapper {
 		produtoDto.setCategoria(produtoEntity.getCategoria().getNome());
 		produtoDto.setDtCadastroProduto(produtoEntity.getDtCadastroProduto());
 		produtoDto.setUrl(uri.toString());
-	
+		produtoDto.setCodigoProduto(produtoEntity.getCodigoProduto());
 		return produtoDto;
 	}
 
@@ -32,7 +32,7 @@ public class ProdutoMapper {
 	public ProdutoEntity toEntity(ProdutoDTO produtoDto) {
 
 		ProdutoEntity produtoEntity = new ProdutoEntity();
-		//
+		produtoEntity.setCodigoProduto(produtoDto.getCodigoProduto());
 		produtoEntity.setNome(produtoDto.getNome());
 		produtoEntity.setDescricao(produtoDto.getDescricao());
 		produtoEntity.setPreco(produtoDto.getPreco());

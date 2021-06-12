@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 public class ImagemEntity {
 
@@ -26,10 +28,22 @@ public class ImagemEntity {
 	
 
 	@Lob
+	@Type(type="org.hibernate.type.ImageType")
 	private byte[] data;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private ProdutoEntity produto;
+	
+	private String codigoDoProduto;
+
+
+	public String getCodigoDoProduto() {
+		return codigoDoProduto;
+	}
+
+	public void setCodigoDoProduto(String codigoDoProduto) {
+		this.codigoDoProduto = codigoDoProduto;
+	}
 
 	public Long getId() {
 		return id;

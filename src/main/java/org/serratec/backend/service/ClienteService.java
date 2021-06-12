@@ -50,8 +50,13 @@ public class ClienteService {
 
 	// POST
 	public ClienteDTO create(ClienteDTO dto) throws HasErrorInResponseCepException, ErroNaEntradaDosDados {
-
-		if(dto.getTelefone().length() > 8 && dto.getCpf().length() == 14 ) {
+		for(ClienteEntity clienteDoDB : findAll()) {
+			if(clienteDoDB.getCpf().equals(dto.getCpf())) {
+				throw new ErroNaEntradaDosDados("CPF já cadastrado");
+			}
+		}
+		
+		if(dto.getTelefone().length() >= 8 && dto.getCpf().length() == 14 ) {
 			
 			ClienteEntity cliente = clienteMapper.toEntity(dto);
 			
@@ -66,7 +71,7 @@ public class ClienteService {
 			return clienteMapper.toDto(cliente);
 		}
 		
-		throw new ErroNaEntradaDosDados("Seu CPF tem de estar no formato xxx.xxx.xxx-xx e seu telefone mais de 8 digitos");
+		throw new ErroNaEntradaDosDados("Seu CPF tem de estar no formato xxx.xxx.xxx-xx e seu telefone deve ter mais de 8 digitos");
 	}
 
 	// PUT

@@ -2,6 +2,7 @@ package org.serratec.backend.controller;
 
 import org.serratec.backend.dto.CompraDTO;
 import org.serratec.backend.exceptionProject.ItemNaoEncontrado;
+import org.serratec.backend.exceptionProject.ProdutosPedidosErro;
 import org.serratec.backend.service.ProdutosPedidosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("/produtosPedidos")
 public class ProdutosPedidosController {
 	
 	@Autowired
 	ProdutosPedidosService compraService;
 	
 	@PostMapping("/criarPedido")
-	public  ResponseEntity<String> criarPedido(@RequestBody CompraDTO compra) {
+	public  ResponseEntity<String> criarPedido(@RequestBody CompraDTO compra) throws ProdutosPedidosErro {
 		return new ResponseEntity<String>(compraService.iniciarPedido(compra), HttpStatus.OK);
 	}
 	

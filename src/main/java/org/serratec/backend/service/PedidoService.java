@@ -1,14 +1,19 @@
 package org.serratec.backend.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.backend.dto.PedidoDTO;
 import org.serratec.backend.entity.ClienteEntity;
 import org.serratec.backend.entity.PedidoEntity;
+import org.serratec.backend.entity.ProdutoEntity;
+import org.serratec.backend.entity.ProdutosPedidosEntity;
+import org.serratec.backend.exceptionProject.PedidoNotFound;
 import org.serratec.backend.mapper.PedidoMapper;
 import org.serratec.backend.repository.ClienteRepository;
 import org.serratec.backend.repository.PedidoRepository;
+import org.serratec.backend.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +23,9 @@ public class PedidoService {
 	@Autowired
 	PedidoRepository pedidoRepository;
 
+	@Autowired
+	ProdutoRepository produtoRepository;
+	
 	@Autowired
 	PedidoMapper pedidoMapper;
 	@Autowired
@@ -100,8 +108,27 @@ public class PedidoService {
 		}
 		return "Pedido não encontrado!";
 	}
+
+
 	
-//	public PedidoDTO finalizarPedido(Cliente id) {
-//		clienteRepository
-//	}
+	public PedidoDTO finalizarPedido(Long id) throws PedidoNotFound {
+		try {
+			
+			PedidoEntity pedido = pedidoRepository.getByNumeroPedido(id);
+//		pedido.setDataEntrega(LocalDate.of(LocalDate.now().getDayOfWeek().getValue() + 5, LocalDate.now().getMonthValue(), LocalDate.now(). ));
+			pedido.setDataEntrega(LocalDate.now().plusDays(5));
+			pedido.setStatus(false);
+			
+			for(ProdutosPedidosEntity produtosPedidos : pedido.getProdutosPedidos() ) {
+				ProdutoEntity produto = produtoRepository.getById(produtosPedidos.getProduto().getId());
+				produto.setQtdEstoque(produtosPedidos.getQuantidade());
+				produtosPedidos.setPreco(produtosPedidos.getProduto().getPreco());
+				produtoRepository.saveAndFlush(produto);
+			}
+			
+			return pedidoMapper.toDto(pedido);
+		}catch(NullPointerException erro) {
+			throw new PedidoNotFound("Pedido não encontrado");
+		}
+	}
 }

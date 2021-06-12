@@ -5,6 +5,7 @@ import org.serratec.backend.entity.PedidoEntity;
 import org.serratec.backend.entity.ProdutoEntity;
 import org.serratec.backend.entity.ProdutosPedidosEntity;
 import org.serratec.backend.exceptionProject.ItemNaoEncontrado;
+import org.serratec.backend.exceptionProject.ProdutosPedidosErro;
 import org.serratec.backend.repository.PedidoRepository;
 import org.serratec.backend.repository.ProdutoRepository;
 import org.serratec.backend.repository.ProdutosPedidosRepository;
@@ -22,15 +23,31 @@ public class ProdutosPedidosService {
 	@Autowired
 	ProdutosPedidosRepository produtosPedidosRepository;
 	//retorno provisorio
-	public String iniciarPedido(CompraDTO compra) {
+	public String iniciarPedido(CompraDTO compra) throws ProdutosPedidosErro {
+		//codigoProduto
+		for(ProdutosPedidosEntity adicionarProduto : produtosPedidosRepository.findAll()) {
+			if(adicionarProduto.getProduto().getCodigoProduto().equals(compra.getCodigoProduto())){
+				//ProdutoEntity produtoPedido = produtoRepository.getByCodigoProduto(compra.getProduto());
+				if(adicionarProduto.getQuantidade() + compra.getQuantidade() <= adicionarProduto.getProduto().getQtdEstoque()) {
+					adicionarProduto.setQuantidade(adicionarProduto.getQuantidade() + compra.getQuantidade()); 
+					return "Seu pedido foi adicionado na lista";
+				}
+				throw new ProdutosPedidosErro("A quantidade desse produto em estoque é de apenas " +adicionarProduto.getProduto().getQtdEstoque()+ 
+						" e seu pedido já está com " + adicionarProduto.getQuantidade());
+			}
+		}
 		ProdutoEntity produtoPedido = produtoRepository.getByName(compra.getProduto());
-		ProdutosPedidosEntity adicionarProduto = new ProdutosPedidosEntity();
-		adicionarProduto.setPedido(pedidoRepository.getById(compra.getIdPedido()));
-		adicionarProduto.setProduto(produtoPedido);
-		adicionarProduto.setQuantidade(compra.getQuantidade());
-		adicionarProduto.setPreco(produtoPedido.getPreco());
-		produtosPedidosRepository.save(adicionarProduto);
-		return "Produto adicionado na lista";
+		if(compra.getQuantidade() <= produtoPedido.getQtdEstoque()) {
+			ProdutosPedidosEntity adicionarProduto = new ProdutosPedidosEntity();
+			adicionarProduto.setPedido(pedidoRepository.getByNumeroPedido(compra.getNumeroPedido()));
+			adicionarProduto.setProduto(produtoPedido);
+			adicionarProduto.setQuantidade(compra.getQuantidade());
+			adicionarProduto.setPreco(produtoPedido.getPreco());
+			produtosPedidosRepository.save(adicionarProduto);
+			return "Produto adicionado na lista";	
+		}
+		
+		throw new ProdutosPedidosErro("Quantidade do produto em estoque e menor que seu pedido");
 	}
 	
 	

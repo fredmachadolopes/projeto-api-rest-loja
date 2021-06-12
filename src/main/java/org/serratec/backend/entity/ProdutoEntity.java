@@ -18,6 +18,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+import org.serratec.backend.util.GeradorDeIdentificacao;
+
 @Entity
 @Table(name = "produto")
 public class ProdutoEntity {
@@ -44,6 +46,16 @@ public class ProdutoEntity {
 	
 	@OneToOne(mappedBy = "produto", cascade = CascadeType.ALL)
 	private ImagemEntity imagem;
+	
+	private String codigoProduto = new GeradorDeIdentificacao().retornaIdentificador();
+	
+	public String getCodigoProduto() {
+		return codigoProduto;
+	}
+
+	public void setCodigoProduto(String codigoProduto) {
+		this.codigoProduto = codigoProduto;
+	}
 
 	public ImagemEntity getImagem() {
 		return imagem;
@@ -118,7 +130,11 @@ public class ProdutoEntity {
 	}
 
 	public void setQtdEstoque(Integer qtdEstoque) {
-		this.qtdEstoque = qtdEstoque;
+		this.qtdEstoque -= qtdEstoque;
+	}
+	
+	public void adicionarNoEstoque(Integer qtdEstoque) {
+		this.qtdEstoque += qtdEstoque;
 	}
 
 	public LocalDate getDtCadastroProduto() {

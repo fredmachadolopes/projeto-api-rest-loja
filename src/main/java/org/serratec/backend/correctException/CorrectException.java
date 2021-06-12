@@ -8,6 +8,8 @@ import org.serratec.backend.exceptionProject.ErroNaEntradaDosDados;
 import org.serratec.backend.exceptionProject.HasAdressInList;
 import org.serratec.backend.exceptionProject.HasErrorInResponseCepException;
 import org.serratec.backend.exceptionProject.NaoHaEnderecoComEsseIdentificador;
+import org.serratec.backend.exceptionProject.PedidoNotFound;
+import org.serratec.backend.exceptionProject.ProdutosPedidosErro;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +29,16 @@ public class CorrectException {
 	
 	@ExceptionHandler(EmailOrPasswordNotValid.class)
 	public ResponseEntity<String> correctExceptionCliente(EmailOrPasswordNotValid erro){
+		return ResponseEntity.noContent().header("X-erro-msg", erro.getMessage()).build();
+	}
+	
+	@ExceptionHandler(ProdutosPedidosErro.class)
+	public ResponseEntity<String> produtosPedidosFaltando(ProdutosPedidosErro erro){
+		return ResponseEntity.noContent().header("X-erro-msg", erro.getMessage()).build();
+	}
+	
+	@ExceptionHandler(PedidoNotFound.class)
+	public ResponseEntity<String> pedidoNotFound(PedidoNotFound erro){
 		return ResponseEntity.noContent().header("X-erro-msg", erro.getMessage()).build();
 	}
 	

@@ -55,7 +55,7 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/{id}/imagem")
-	public ResponseEntity<byte[]> pegarProduto(@PathVariable Long id){
+	public ResponseEntity<byte[]> pegarProduto(@PathVariable String id){
 		ImagemEntity imagem = imagemService.getImagem(id);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", imagem.getMimetype());

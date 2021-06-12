@@ -3,6 +3,7 @@ package org.serratec.backend.controller;
 import java.util.List;
 
 import org.serratec.backend.dto.PedidoDTO;
+import org.serratec.backend.exceptionProject.PedidoNotFound;
 import org.serratec.backend.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,11 @@ public class PedidoController {
 	@PutMapping("/atualizarPedido/{id}")
 	public ResponseEntity<PedidoDTO> atualizarCliente(@PathVariable Long id, @RequestBody PedidoDTO dto) {
 		return new ResponseEntity<PedidoDTO>(pedidoService.update(id, dto), HttpStatus.OK);
+	}
+	
+	@PostMapping("/finalizarPedido/{id}")
+	public ResponseEntity<PedidoDTO> finalizarPedido(@PathVariable Long id) throws PedidoNotFound{
+		return new ResponseEntity<PedidoDTO>(pedidoService.finalizarPedido(id), HttpStatus.OK);
 	}
 	
 

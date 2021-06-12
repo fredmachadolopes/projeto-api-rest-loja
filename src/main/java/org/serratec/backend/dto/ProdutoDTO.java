@@ -29,6 +29,14 @@ public class ProdutoDTO {
 	
 	private String codigoProduto = new GeradorDeIdentificacao().retornaIdentificador();
 	
+	public String getCodigoProduto() {
+		return codigoProduto;
+	}
+
+	public void setCodigoProduto(String codigoProduto) {
+		this.codigoProduto = codigoProduto;
+	}
+
 	public String getUrl() {
 		return url;
 	}

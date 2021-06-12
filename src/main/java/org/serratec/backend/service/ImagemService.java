@@ -21,16 +21,16 @@ public class ImagemService {
 	public ImagemEntity create(ProdutoEntity produto, MultipartFile file) throws IOException{
 		ImagemEntity imagem = new ImagemEntity();
 		imagem.setProduto(produto);
+		imagem.setCodigoDoProduto(produto.getCodigoProduto());
 		imagem.setData(file.getBytes());
 		imagem.setMimetype(file.getContentType());
 		imagem.setNome("Imagem");
-		System.out.println(imagem);
 		return imagemRepository.save(imagem); 
 	}
 	
 	@Transactional
-	public ImagemEntity getImagem(Long id) {
-		ImagemEntity imagem = imagemRepository.findByIdProduto(id);
+	public ImagemEntity getImagem(String id) {
+		ImagemEntity imagem = imagemRepository.findByCodigoProduto(id);
 		return imagem;
 	}
 

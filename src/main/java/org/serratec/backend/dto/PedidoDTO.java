@@ -20,25 +20,22 @@ public class PedidoDTO {
 
 	private Boolean status; // ?
 	
-	private List<ProdutoDTO> produtos = new ArrayList<ProdutoDTO>(); 
-	
+	private String andamento = "Em aberto";
+
+	public String getAndamento() {
+		return andamento;
+	}
+
+	public void setAndamento(String andamento) {
+		this.andamento = andamento;
+	}
+
 	public List<CompraDTO> getListaProdutoPedido() {
 		return listaProdutoPedido;
 	}
 	
 	public void setListaProdutoPedido(List<CompraDTO> listaProdutoPedido) {
 		this.listaProdutoPedido = listaProdutoPedido;
-	}
-	public List<ProdutoDTO> getProdutos() {
-		return produtos;
-	}
-	
-	public void setProduto(ProdutoDTO produto) {
-		this.produtos.add(produto);
-	}
-
-	public void setProdutos(List<ProdutoDTO> produto) {
-		this.produtos = produto;
 	}
 
 	public Integer getNumeroPedido() {

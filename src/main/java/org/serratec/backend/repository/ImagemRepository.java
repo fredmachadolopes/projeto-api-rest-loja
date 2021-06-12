@@ -7,7 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface ImagemRepository extends JpaRepository<ImagemEntity, Long> {
 	
-	@Query("From ImagemEntity WHERE produto_id = ?1")
-	ImagemEntity findByIdProduto(@Param("id")Long id);
+	@Query("From ImagemEntity WHERE codigo_do_produto = ?1")
+	ImagemEntity findByCodigoProduto(@Param("id")String id);
+
+
 
 }

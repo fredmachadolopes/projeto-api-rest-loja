@@ -8,7 +8,7 @@ public class CompraDTO {
 	@Override
 	public String toString() {
 		return "CompraDTO [idCliente=" + idCliente + ", produto=" + produto + ", quantidade=" + quantidade
-				+ ", idLista=" + idPedido + "]";
+				+ ", idLista=" + numeroPedido + "]";
 	}
 
 	private Long idCliente;
@@ -17,16 +17,26 @@ public class CompraDTO {
 	
 	private Integer quantidade;
 	
-	private Long idPedido;
+	private Long numeroPedido;
 	
-	private Double valor;
+	private Double valorUnitario;
+	
+	private String codigoProduto;
+
+	public String getCodigoProduto() {
+		return codigoProduto;
+	}
+
+	public void setCodigoProduto(String codigoProduto) {
+		this.codigoProduto = codigoProduto;
+	}
 
 	public Double getValor() {
-		return valor;
+		return valorUnitario;
 	}
 
 	public void setValor(Double valor) {
-		this.valor = valor;
+		this.valorUnitario = valor;
 	}
 
 	public Long getIdCliente() {
@@ -53,12 +63,12 @@ public class CompraDTO {
 		this.quantidade = quantidade;
 	}
 
-	public Long getIdPedido() {
-		return idPedido;
+	public Long getNumeroPedido() {
+		return numeroPedido;
 	}
 
-	public void setIdPedido(Long idPedido) {
-		this.idPedido = idPedido;
+	public void setNumeroPedido(Long numeroPedido) {
+		this.numeroPedido = numeroPedido;
 	}
 	
 }
