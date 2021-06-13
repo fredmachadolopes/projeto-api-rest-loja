@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,7 +31,12 @@ public class CategoriaController {
 	
 	@GetMapping("/listarCategorias")
 	public ResponseEntity<List<CategoriaDTO>> listarCategorias(){
-		return new ResponseEntity<List<CategoriaDTO>>(categoriaService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<CategoriaDTO>>(categoriaService.findAllSemProdutos(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/verPeloNome")
+	public ResponseEntity<CategoriaDTO> verCategoria(@RequestParam("categoria") String categoria) throws CategoriaIsFalse{
+		return new ResponseEntity<CategoriaDTO>(categoriaService.findByName(categoria), HttpStatus.OK);
 	}
 	
 	@PutMapping("/atualizarCategoria")

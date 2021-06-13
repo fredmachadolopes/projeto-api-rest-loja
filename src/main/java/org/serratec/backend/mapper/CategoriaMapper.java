@@ -24,6 +24,16 @@ public class CategoriaMapper {
 
 		return categoriaDto;
 	}
+	
+	public CategoriaDTO toDtoSemProdutos(CategoriaEntity categoriaEntity) {
+
+		CategoriaDTO categoriaDto = new CategoriaDTO();
+		categoriaDto.setNome(categoriaEntity.getNome());
+		categoriaDto.setIdentificador(categoriaEntity.getIdentificador());
+		categoriaDto.setDescricao(categoriaEntity.getDescricao());
+
+		return categoriaDto;
+	}
 
 	public CategoriaEntity toEntity(CategoriaDTO categoriaDto) {
 		CategoriaEntity categoriaEntity = new CategoriaEntity();

@@ -19,6 +19,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
+import org.serratec.backend.util.GeradorDeIdentificacao;
 
 @Entity
 @Table(name = "cliente")
@@ -36,7 +37,7 @@ public class ClienteEntity {
 	@NotNull
 	private String username;
 
-	@Size(min = 3, max = 40) // deve usar MD5 no banco
+
 	@NotNull
 	private String senha;
 
@@ -51,7 +52,7 @@ public class ClienteEntity {
 	@NotNull
 	@Size(min = 8, max = 11)
 	private String telefone; //verificar máscara
-	private String token;
+	
 	
 	private boolean habilitado = true;
 
@@ -59,8 +60,19 @@ public class ClienteEntity {
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
 	
-//	private LocalDateTime horaDoToken;
-	
+	private String identificador = new GeradorDeIdentificacao().retornaIdentificador();
+	public String getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
+	}
+
+	public void setPedidos(List<PedidoEntity> pedidos) {
+		this.pedidos = pedidos;
+	}
+
 	// associações entre a classe Endereco
 	@OneToMany(mappedBy = "cliente", cascade= CascadeType.ALL)
 	private List<EnderecoEntity> endereco = new ArrayList<EnderecoEntity>();
@@ -82,22 +94,6 @@ public class ClienteEntity {
 
 	public void setHabilitado(boolean habilitado) {
 		this.habilitado = habilitado;
-	}
-
-//	public LocalDateTime getHoraDoToken() {
-//		return horaDoToken;
-//	}
-
-//	public void setHoraDoToken(LocalDateTime horaDoToken) {
-//		this.horaDoToken = horaDoToken;
-//	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 	//
 	public void setEndereco(List<EnderecoEntity> endereco) {

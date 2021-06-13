@@ -6,6 +6,7 @@ import java.util.List;
 import org.serratec.backend.dto.ProdutoDTO;
 import org.serratec.backend.entity.ImagemEntity;
 import org.serratec.backend.exceptionProject.CategoriaIsFalse;
+import org.serratec.backend.exceptionProject.ProdutoNotFound;
 import org.serratec.backend.service.ImagemService;
 import org.serratec.backend.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,20 +39,26 @@ public class ProdutoController {
 	public ResponseEntity<List<ProdutoDTO>> findAll() {
 		return new ResponseEntity<List<ProdutoDTO>>(produtoService.findAll(), HttpStatus.OK);
 	}
+	
+	@GetMapping("/listarPeloNome")
+	public ResponseEntity<List<ProdutoDTO>> findAllPeloNome(@RequestParam("nome") String nome) {
+		return new ResponseEntity<List<ProdutoDTO>>(produtoService.findAllPeloNome(nome), HttpStatus.OK);
+	}
 
 	@PostMapping(path = "create")
-	public ResponseEntity<ProdutoDTO> create(@RequestPart ProdutoDTO dto,@RequestParam MultipartFile file) throws CategoriaIsFalse, IOException {
+	public ResponseEntity<ProdutoDTO> create(@RequestParam MultipartFile file,@RequestPart ProdutoDTO dto) throws CategoriaIsFalse, IOException {
+	
 		return new ResponseEntity<ProdutoDTO>(produtoService.create(dto, file), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletarProduto/{id}")
-	public ResponseEntity<String> deletarPedido(@PathVariable Long id) {
-		return new ResponseEntity<String>(produtoService.delete(id), HttpStatus.OK);
+	@DeleteMapping("/deletarProduto/{identificador}")
+	public ResponseEntity<String> deletarPedido(@PathVariable String identificador) throws ProdutoNotFound {
+		return new ResponseEntity<String>(produtoService.delete(identificador), HttpStatus.OK);
 	}
 
-	@PutMapping("/atualizarProduto/{id}")
-	public ResponseEntity<ProdutoDTO> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoDTO dto) {
-		return new ResponseEntity<ProdutoDTO>(produtoService.update(id, dto), HttpStatus.OK);
+	@PutMapping("/atualizarProduto")
+	public ResponseEntity<ProdutoDTO> atualizarProduto(@RequestBody ProdutoDTO dto) throws ProdutoNotFound {
+		return new ResponseEntity<ProdutoDTO>(produtoService.update(dto), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}/imagem")

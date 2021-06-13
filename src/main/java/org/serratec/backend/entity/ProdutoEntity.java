@@ -38,9 +38,18 @@ public class ProdutoEntity {
 	
 	@NotNull
 	private Double preco;
-	
-	@NotNull
-	private Integer qtdEstoque;
+
+	private boolean habilitado = true;
+
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+
+	private Integer qtdEstoque = 0;
 	
 	private LocalDate dtCadastroProduto = LocalDate.now();
 	
@@ -129,12 +138,12 @@ public class ProdutoEntity {
 		return qtdEstoque;
 	}
 
-	public void setQtdEstoque(Integer qtdEstoque) {
+	public void baixaNoEstoque(Integer qtdEstoque) {
 		this.qtdEstoque -= qtdEstoque;
 	}
 	
-	public void adicionarNoEstoque(Integer qtdEstoque) {
-		this.qtdEstoque += qtdEstoque;
+	public void setQtdEstoque(Integer qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
 	}
 
 	public LocalDate getDtCadastroProduto() {

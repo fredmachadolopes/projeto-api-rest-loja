@@ -29,22 +29,26 @@ public class ProdutosPedidosService {
 			if(adicionarProduto.getProduto().getCodigoProduto().equals(compra.getCodigoProduto())){
 				//ProdutoEntity produtoPedido = produtoRepository.getByCodigoProduto(compra.getProduto());
 				if(adicionarProduto.getQuantidade() + compra.getQuantidade() <= adicionarProduto.getProduto().getQtdEstoque()) {
-					adicionarProduto.setQuantidade(adicionarProduto.getQuantidade() + compra.getQuantidade()); 
-					return "Seu pedido foi adicionado na lista";
+					if(!adicionarProduto.getProduto().isHabilitado()) throw new ProdutosPedidosErro("Este produto não está disponiel para venda");
+					adicionarProduto.setQuantidade(adicionarProduto.getQuantidade() + compra.getQuantidade());
+					produtosPedidosRepository.saveAndFlush(adicionarProduto);
+					return "Seu pedido foi adicionado na lista " + adicionarProduto.getId();
 				}
 				throw new ProdutosPedidosErro("A quantidade desse produto em estoque é de apenas " +adicionarProduto.getProduto().getQtdEstoque()+ 
 						" e seu pedido já está com " + adicionarProduto.getQuantidade());
 			}
 		}
-		ProdutoEntity produtoPedido = produtoRepository.getByName(compra.getProduto());
-		if(compra.getQuantidade() <= produtoPedido.getQtdEstoque()) {
-			ProdutosPedidosEntity adicionarProduto = new ProdutosPedidosEntity();
-			adicionarProduto.setPedido(pedidoRepository.getByNumeroPedido(compra.getNumeroPedido()));
-			adicionarProduto.setProduto(produtoPedido);
-			adicionarProduto.setQuantidade(compra.getQuantidade());
-			adicionarProduto.setPreco(produtoPedido.getPreco());
-			produtosPedidosRepository.save(adicionarProduto);
-			return "Produto adicionado na lista";	
+		ProdutoEntity produtoPedido = produtoRepository.getByCodigoProduto(compra.getCodigoProduto());
+		if(produtoPedido.isHabilitado()) {
+			if(compra.getQuantidade() <= produtoPedido.getQtdEstoque()) {
+				ProdutosPedidosEntity adicionarProduto = new ProdutosPedidosEntity();
+				adicionarProduto.setPedido(pedidoRepository.getByNumeroPedido(compra.getNumeroPedido()));
+				adicionarProduto.setProduto(produtoPedido);
+				adicionarProduto.setQuantidade(compra.getQuantidade());
+				adicionarProduto.setPreco(produtoPedido.getPreco());
+				produtosPedidosRepository.save(adicionarProduto);
+				return "Produto adicionado na lista pedido de numero " + adicionarProduto.getId();	
+			}
 		}
 		
 		throw new ProdutosPedidosErro("Quantidade do produto em estoque e menor que seu pedido");

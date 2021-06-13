@@ -8,6 +8,7 @@ import org.serratec.backend.dto.ProdutoDTO;
 import org.serratec.backend.entity.CategoriaEntity;
 import org.serratec.backend.entity.ProdutoEntity;
 import org.serratec.backend.exceptionProject.CategoriaIsFalse;
+import org.serratec.backend.exceptionProject.ProdutoNotFound;
 import org.serratec.backend.mapper.ProdutoMapper;
 import org.serratec.backend.repository.CategoriaRepository;
 import org.serratec.backend.repository.ProdutoRepository;
@@ -20,17 +21,15 @@ public class ProdutoService {
 
 	@Autowired
 	ProdutoRepository produtoRepository;
-	
+
 	@Autowired
 	CategoriaRepository categoriaRepository;
 
 	@Autowired
 	ProdutoMapper produtoMapper;
-	
+
 	@Autowired
 	ImagemService imagemService;
-	
-
 
 //
 	public Boolean verificarId(Long id) {
@@ -60,29 +59,30 @@ public class ProdutoService {
 	}
 
 	// POST
-	public ProdutoDTO create(ProdutoDTO dto, MultipartFile file) throws CategoriaIsFalse, IOException {
+	public ProdutoDTO create(ProdutoDTO dto, MultipartFile file) throws IOException, CategoriaIsFalse {
 		try {
-			
-			ProdutoEntity produto = produtoMapper.toEntity(dto);
+
 			CategoriaEntity categoria = categoriaRepository.getByName(dto.getCategoria());
-			if(categoria.isHabilitado()) {
+			if (categoria.isHabilitado()) {
+				ProdutoEntity produto = produtoMapper.toEntity(dto);
 				imagemService.create(produto, file);
 				produto.setCategoria(categoria);
 				return produtoMapper.toDto(produtoRepository.save(produto));
 			}
+
 			throw new CategoriaIsFalse("Esta categoria está desabilitada");
-		}catch(NullPointerException erro) {
-			
+		} catch (NullPointerException erro) {
+
 			throw new CategoriaIsFalse("Está categoria não existe");
 		}
-		
+
 	}
 
 	// PUT
-	public ProdutoDTO update(Long id, ProdutoDTO dto) {
-		if (verificarId(id)) {
-			ProdutoEntity produto = produtoRepository.getById(id);
-			System.out.println(produto.getId());
+	public ProdutoDTO update(ProdutoDTO dto) throws ProdutoNotFound {
+		try {
+
+			ProdutoEntity produto = produtoRepository.getByCodigoProduto(dto.getCodigoProduto());
 			if (dto.getNome() != null) {
 				produto.setNome(dto.getNome());
 			}
@@ -95,25 +95,46 @@ public class ProdutoService {
 			if (dto.getQtdEstoque() != null) {
 				produto.setQtdEstoque(dto.getQtdEstoque());
 			}
+			
+			if (dto.isHabilitado()) {
+				produto.setHabilitado(dto.isHabilitado());
+			}
 
 			if (dto.getDtCadastroProduto() != null) {
 				produto.setDtCadastroProduto(dto.getDtCadastroProduto()); // deve ser acrescentado os dias
 			}
 
-			 return produtoMapper.toDto(produtoRepository.saveAndFlush(produto));
+			return produtoMapper.toDto(produtoRepository.saveAndFlush(produto));
+		} catch (NullPointerException e) {
+			throw new ProdutoNotFound("Codigo do produto inválido");
 		}
-		return null; // ADICIONAR TRATAMENTO DE ERRO
+
 	}
 
 //
 	// DELETE
-	public String delete(Long id) {
+	public String delete(String identificador) throws ProdutoNotFound {
+		try {
 
-		if (verificarId(id)) {
-			produtoRepository.deleteById(id);
+			ProdutoEntity produto =produtoRepository.getByCodigoProduto(identificador);
+			produto.setHabilitado(false);
+			produtoRepository.saveAndFlush(produto);
 			return "Produto deletado com sucesso!";
+
+		} catch (NullPointerException e) {
+			throw new ProdutoNotFound("Codigo do produto inválido");
 		}
-		return "Produto não encontrado!";
+	}
+
+	public List<ProdutoDTO> findAllPeloNome(String nome) {
+		List<ProdutoDTO> lista = findAll();
+		List<ProdutoDTO> listaPronta = new ArrayList<ProdutoDTO>();
+		for (ProdutoDTO list : lista) {
+			
+			if (list.getNome().equals(nome))
+				listaPronta.add(list);
+		}
+		return listaPronta;
 	}
 
 }

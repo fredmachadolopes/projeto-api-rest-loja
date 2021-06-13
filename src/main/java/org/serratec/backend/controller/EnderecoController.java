@@ -35,9 +35,9 @@ public class EnderecoController {
 		return new ResponseEntity<String> (enderecoService.adicionarNoCliente(endereco, trocar), HttpStatus.OK);
 	}
 	@GetMapping("/listarEnderecos")
-	public ResponseEntity<List<EnderecoDTO>> retornaEnderecos(@RequestBody LogarCliente logado) throws AddressNotFound{
+	public ResponseEntity<List<EnderecoDTO>> retornaEnderecos(@RequestParam("identificador") String identificador) throws AddressNotFound{
 		// Está funcionando mas falta implementacoes
-		return new ResponseEntity< List<EnderecoDTO>>(enderecoService.listOfAddress(logado), HttpStatus.OK);
+		return new ResponseEntity< List<EnderecoDTO>>(enderecoService.listOfAddress(identificador), HttpStatus.OK);
 	}
 	
 	@PutMapping("/atualizarEndereco/{identificador}")

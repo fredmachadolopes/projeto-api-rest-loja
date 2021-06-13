@@ -23,6 +23,7 @@ public class PedidoMapper {
 		pedidoDto.setDataPedido(pedidoEntity.getDataPedido()); // verificar se é assim que passa a data atual
 		pedidoDto.setDataEntrega(pedidoEntity.getDataEntrega());
 	    pedidoDto.setStatus(pedidoEntity.getStatus());
+
 	    if(!pedidoEntity.getStatus()) pedidoDto.setAndamento("Finalizado");
 		return pedidoDto;
 	}

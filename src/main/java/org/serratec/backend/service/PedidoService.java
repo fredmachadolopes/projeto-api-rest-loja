@@ -57,10 +57,10 @@ public class PedidoService {
 	}
 
 	// POST
-	public PedidoDTO create(Long id) {
+	public PedidoDTO create(String identificador) {
 		// cliente autentidado para pegar ID
 		
-		ClienteEntity cliente = clienteRepository.getById(id);
+		ClienteEntity cliente = clienteRepository.getByIdentificador(identificador);
 		PedidoEntity pedido = new PedidoEntity();
 		pedido.setCliente(cliente);
 		
@@ -121,7 +121,7 @@ public class PedidoService {
 			
 			for(ProdutosPedidosEntity produtosPedidos : pedido.getProdutosPedidos() ) {
 				ProdutoEntity produto = produtoRepository.getById(produtosPedidos.getProduto().getId());
-				produto.setQtdEstoque(produtosPedidos.getQuantidade());
+				produto.baixaNoEstoque(produtosPedidos.getQuantidade());
 				produtosPedidos.setPreco(produtosPedidos.getProduto().getPreco());
 				produtoRepository.saveAndFlush(produto);
 			}

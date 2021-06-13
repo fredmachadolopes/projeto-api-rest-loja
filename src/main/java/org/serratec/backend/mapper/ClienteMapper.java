@@ -6,6 +6,7 @@ import java.util.List;
 import org.serratec.backend.dto.ClienteDTO;
 import org.serratec.backend.entity.ClienteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,6 +27,7 @@ public class ClienteMapper {
 		clienteDto.setTelefone(clienteEntity.getTelefone());
 		clienteDto.setPedidos(pedidoMapper.toDto(clienteEntity.getPedidos()));
 		clienteDto.setDtNascimento(clienteEntity.getDtNascimento());
+		clienteDto.setIdentificador(clienteEntity.getIdentificador());
 		clienteDto.setEndereco(enderecoMapper.listaEnderecotoDTO(clienteEntity.getEndereco()));
 
 		return clienteDto;
@@ -35,7 +37,7 @@ public class ClienteMapper {
 		ClienteEntity clienteEntity = new ClienteEntity();
 		clienteEntity.setEmail(clienteDto.getEmail());
 		clienteEntity.setUsername(clienteDto.getUsername());
-		clienteEntity.setSenha(clienteDto.getSenha());
+		clienteEntity.setSenha(new BCryptPasswordEncoder().encode(clienteDto.getSenha()) );
 		clienteEntity.setNome(clienteDto.getNome());
 		clienteEntity.setCpf(clienteDto.getCpf());
 		clienteEntity.setTelefone(clienteDto.getTelefone());
@@ -46,7 +48,7 @@ public class ClienteMapper {
 		ClienteDTO clienteDto = new ClienteDTO();
 		clienteDto.setEmail(clienteEntity.getEmail());
 		clienteDto.setUsername(clienteEntity.getUsername());
-		clienteDto.setToken(clienteEntity.getToken());
+		clienteDto.setIdentificador(clienteEntity.getIdentificador());
 		return clienteDto;
 	}
 	

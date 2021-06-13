@@ -32,9 +32,9 @@ public class PedidoController {
 	}
 
 	@PostMapping("/criarPedido")
-	public ResponseEntity<PedidoDTO> create(@RequestParam(name="cliente") Long id) {
-		System.out.println(id);
-		return new ResponseEntity<PedidoDTO>(pedidoService.create(id), HttpStatus.OK);
+	public ResponseEntity<PedidoDTO> create(@RequestParam(name="cliente") String identificador) {
+		
+		return new ResponseEntity<PedidoDTO>(pedidoService.create(identificador), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deletarPedido/{id}")

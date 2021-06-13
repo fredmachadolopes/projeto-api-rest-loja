@@ -98,8 +98,8 @@ public class EnderecoService {
 		}
 	}
 	// Esse metodo retorna para o controller uma lista de endereco para a consulta.
-	public List<EnderecoDTO> listOfAddress(LogarCliente logado) throws AddressNotFound{
-		ClienteEntity cliente = clienteService.clienteLogado(logado);
+	public List<EnderecoDTO> listOfAddress(String identificador) throws AddressNotFound{
+		ClienteEntity cliente = clienteService.clienteLogado(identificador);
 		if(cliente != null) {
 			
 			return enderecoMapper.listaEnderecotoDTO( addressRepository.findAllByIdCliente(cliente.getId()));

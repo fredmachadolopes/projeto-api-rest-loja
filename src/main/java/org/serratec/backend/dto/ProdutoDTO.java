@@ -27,6 +27,17 @@ public class ProdutoDTO {
 	
 	private String url;
 	
+	private boolean habilitado;
+	
+	
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+
 	private String codigoProduto = new GeradorDeIdentificacao().retornaIdentificador();
 	
 	public String getCodigoProduto() {

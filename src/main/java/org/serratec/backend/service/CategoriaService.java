@@ -23,6 +23,7 @@ public class CategoriaService {
 	public Boolean verificarId(Long id) {
 		return categoriaRepository.existsById(id);
 	}
+	
 
 	// GET
 	public List<CategoriaDTO> findAll() { // Cliente Logado mostra uma lista de produtos
@@ -32,6 +33,18 @@ public class CategoriaService {
 		for (CategoriaEntity categoriaEntity : lista) {
 			if(categoriaEntity.isHabilitado()) {
 				listaDTO.add(categoriaMapper.toDto(categoriaEntity));	
+			}
+		}
+		return listaDTO;
+	}
+	
+	public List<CategoriaDTO> findAllSemProdutos() { // Cliente Logado mostra uma lista de produtos
+		
+		List<CategoriaEntity> lista = categoriaRepository.findAll();
+		List<CategoriaDTO> listaDTO = new ArrayList<CategoriaDTO>();
+		for (CategoriaEntity categoriaEntity : lista) {
+			if(categoriaEntity.isHabilitado()) {
+				listaDTO.add(categoriaMapper.toDtoSemProdutos(categoriaEntity));	
 			}
 		}
 		return listaDTO;
@@ -89,5 +102,15 @@ public class CategoriaService {
 			throw new CategoriaIsFalse("Nome incorreto ou categoria não existe");
 		}
 
+	}
+
+	public CategoriaDTO findByName(String nome) throws CategoriaIsFalse {
+		try {
+			
+			CategoriaEntity categoria = categoriaRepository.getByName(nome);
+			return categoriaMapper.toDtoSemProdutos(categoria);
+		}catch(NullPointerException e) {
+			throw new CategoriaIsFalse("Categoria não encontrada");
+		}
 	}
 }

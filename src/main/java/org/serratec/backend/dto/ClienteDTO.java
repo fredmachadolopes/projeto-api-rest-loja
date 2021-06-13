@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.serratec.backend.entity.PedidoEntity;
+import org.serratec.backend.util.GeradorDeIdentificacao;
 
 public class ClienteDTO {
 
@@ -33,11 +34,20 @@ public class ClienteDTO {
 	@Column(name = "dtNascimento")
 	private LocalDate dtNascimento;
 	
-	private String token;
+
 	
 	private List<EnderecoDTO> endereco = new ArrayList<EnderecoDTO>();
 	
 	private List<PedidoDTO> pedidos = new ArrayList<PedidoDTO>();
+	
+	private String identificador;
+	public String getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
+	}
 
 	public List<PedidoDTO> getPedidos() {
 		return pedidos;
@@ -45,12 +55,7 @@ public class ClienteDTO {
 	public void setPedidos(List<PedidoDTO> pedidos) {
 		this.pedidos = pedidos;
 	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
+
 	public List<EnderecoDTO> getEndereco() {
 		return endereco;
 	}

@@ -10,4 +10,7 @@ public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long>{
 	@Query("FROM ProdutoEntity WHERE nome LIKE ?1 ")
 	ProdutoEntity getByName(@Param("produto")String produto);
 
+	@Query("FROM ProdutoEntity WHERE codigo_produto LIKE ?1 ")
+	ProdutoEntity getByCodigoProduto(@Param("produto")String codigo);
+
 }

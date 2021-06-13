@@ -21,6 +21,7 @@ import org.serratec.backend.mapper.EnderecoMapper;
 import org.serratec.backend.repository.ClienteRepository;
 import org.serratec.backend.util.GeradorDeIdentificacao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -50,11 +51,11 @@ public class ClienteService {
 
 	// POST
 	public ClienteDTO create(ClienteDTO dto) throws HasErrorInResponseCepException, ErroNaEntradaDosDados {
-		for(ClienteEntity clienteDoDB : findAll()) {
-			if(clienteDoDB.getCpf().equals(dto.getCpf())) {
-				throw new ErroNaEntradaDosDados("CPF já cadastrado");
-			}
-		}
+//		for(ClienteEntity clienteDoDB : findAll()) {
+//			if(clienteDoDB.getCpf().equals(dto.getCpf())) {
+//				throw new ErroNaEntradaDosDados("CPF já cadastrado");
+//			}
+//		}
 		
 		if(dto.getTelefone().length() >= 8 && dto.getCpf().length() == 14 ) {
 			
@@ -76,9 +77,9 @@ public class ClienteService {
 
 	// PUT
 	public ClienteDTO update(ClienteDTO dto) throws ClientNotFoundException {
-		
+		System.out.println(dto.getIdentificador());
 		for (ClienteEntity cliente : findAll()) {
-			if (cliente.getToken().equals(dto.getToken()) && (cliente.getEmail().equals(dto.getEmail()))) {
+			if ((cliente.getEmail().equals(dto.getEmail())) && (cliente.getIdentificador().equals(dto.getIdentificador()))) {
 				if (dto.getEmail() != null) {
 					cliente.setEmail(dto.getEmail());
 				}
@@ -86,7 +87,7 @@ public class ClienteService {
 					cliente.setUsername(dto.getUsername());
 				}
 				if (dto.getSenha() != null) {
-					cliente.setSenha(dto.getSenha());
+					cliente.setSenha(new BCryptPasswordEncoder().encode(dto.getSenha()));
 				}
 				if (dto.getNome() != null) {
 					cliente.setNome(dto.getNome());
@@ -107,11 +108,11 @@ public class ClienteService {
 	}
 
 	// Esse metodo é para saber se o cliente está logado
-	public ClienteEntity clienteLogado(LogarCliente logado) {
+	public ClienteEntity clienteLogado(String identificador) {
 		try {
 			for (ClienteEntity cliente : findAll()) {
 				
-			if (cliente.getToken().equals(logado.getToken()) && (cliente.getEmail().equals(logado.getEmail()))) {
+			if (cliente.getIdentificador().equals(identificador)) {
 
 				return cliente;
 			}
@@ -123,8 +124,8 @@ public class ClienteService {
 	}
 
 	// DELETE
-	public String delete(LogarCliente logado) throws ClientNotFoundException {
-		ClienteEntity cliente = clienteLogado(logado);
+	public String delete(String identificador) throws ClientNotFoundException {
+		ClienteEntity cliente = clienteLogado(identificador);
 		if (cliente != null) {
 
 			cliente.setHabilitado(false);
@@ -138,8 +139,6 @@ public class ClienteService {
 	public ClienteDTO logar(LogarCliente dto) throws EmailOrPasswordNotValid {
 		for (ClienteEntity cliente : findAll()) {
 			if (cliente.getSenha().equals(dto.getSenha()) && (cliente.getEmail().equals(dto.getEmail()))) {
-				cliente.setToken(gerardorId.retornaIdentificador());
-//				cliente.setHoraDoToken(LocalDateTime.now());
 				cliente.setHabilitado(true);// Debater sobre isso novamente;
 				return clienteMapper.toDto(clienteRepository.saveAndFlush(cliente));
 			}
@@ -148,10 +147,10 @@ public class ClienteService {
 		// Finalizado
 	}
 
-	public ClienteDTO recuperarSenha(String email) throws EmailOrPasswordNotValid {
-		String emailCliente = "";
+	public ClienteDTO recuperarSenha(String email,String mensagem) throws EmailOrPasswordNotValid {
+		ClienteEntity emailCliente = null;
 		try {
-			emailCliente = clienteRepository.findByEmail(email).getEmail();
+			emailCliente = clienteRepository.findByEmail(email);
 		} catch (NullPointerException erro) {
 			System.out.println("Erro na busca por E-mail");
 		}
@@ -159,16 +158,15 @@ public class ClienteService {
 		SimpleEmail emailEnviar = new SimpleEmail();
 		emailEnviar.setHostName("smtp.gmail.com");
 		emailEnviar.setSmtpPort(465);
-		emailEnviar.setAuthenticator(new DefaultAuthenticator("fred.machado.rj@gmail.com", "1F9r8e6d?"));
+		emailEnviar.setAuthenticator(new DefaultAuthenticator("cervejavagrupo1@gmail.com", "123cervejava"));
 		emailEnviar.setSSLOnConnect(true);
 
 		try {
 			
 			emailEnviar.setFrom("fred.machado.rj@gmail.com");
 			emailEnviar.setSubject("Recuperar senha");
-			emailEnviar.setMsg("Testando grupo 1");
+			emailEnviar.setMsg(mensagem + "\nUtilize esse codigo para atualizar sua senha \n" + emailCliente.getIdentificador() );
 			emailEnviar.addTo(email);
-			System.out.println(emailCliente);
 			emailEnviar.send();
 			System.out.println("Enviado ");
 		} catch (EmailException e) {

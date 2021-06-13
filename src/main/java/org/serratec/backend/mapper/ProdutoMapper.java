@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.backend.dto.ProdutoDTO;
+import org.serratec.backend.entity.CategoriaEntity;
 import org.serratec.backend.entity.ProdutoEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,20 +25,22 @@ public class ProdutoMapper {
 		produtoDto.setCategoria(produtoEntity.getCategoria().getNome());
 		produtoDto.setDtCadastroProduto(produtoEntity.getDtCadastroProduto());
 		produtoDto.setUrl(uri.toString());
+		produtoDto.setHabilitado(produtoEntity.isHabilitado());
 		produtoDto.setCodigoProduto(produtoEntity.getCodigoProduto());
 		return produtoDto;
 	}
 
 	//
 	public ProdutoEntity toEntity(ProdutoDTO produtoDto) {
-
 		ProdutoEntity produtoEntity = new ProdutoEntity();
 		produtoEntity.setCodigoProduto(produtoDto.getCodigoProduto());
 		produtoEntity.setNome(produtoDto.getNome());
 		produtoEntity.setDescricao(produtoDto.getDescricao());
 		produtoEntity.setPreco(produtoDto.getPreco());
+		System.out.println(produtoDto.getQtdEstoque());
 		produtoEntity.setQtdEstoque(produtoDto.getQtdEstoque());
 //		produtoEntity.setDtCadastroProduto(produtoDto.getDtCadastroProduto());
+
 
 		return produtoEntity;
 	}

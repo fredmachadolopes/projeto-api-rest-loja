@@ -32,15 +32,15 @@ public class ClienteController {
 	}
 	
 	@DeleteMapping("/deletarCliente")
-	public ResponseEntity<String> deletarCliente(@RequestBody LogarCliente logado) throws ClientNotFoundException{
+	public ResponseEntity<String> deletarCliente(@RequestParam("identificador")String identificador) throws ClientNotFoundException{
 		// delete lógico funcionando mas precisa emplementar o token
-		return new ResponseEntity<String>(clienteService.delete(logado), HttpStatus.OK);
+		return new ResponseEntity<String>(clienteService.delete(identificador), HttpStatus.OK);
 		
 	}
 	
 	@PutMapping("/atualizarCliente")
 	public ResponseEntity<ClienteDTO> atualizarCliente(@RequestBody ClienteDTO dto) throws ClientNotFoundException{
-		//Está funcionando mas falta a verificacao por token
+	
 		return new ResponseEntity<ClienteDTO>(clienteService.update(dto),HttpStatus.OK);
 	}
 	
@@ -52,7 +52,8 @@ public class ClienteController {
 	
 	@GetMapping("/recuperarSenha")
 	public ResponseEntity<ClienteDTO> logarCliente(@RequestParam(name = "email") String email) throws EmailOrPasswordNotValid{
-		return new ResponseEntity<ClienteDTO>(clienteService.recuperarSenha(email),HttpStatus.OK);
+		String mensagem = "http://localhost:8080/cliente/atualizarCliente \n Entre no link acima e altere sua senha";
+		return new ResponseEntity<ClienteDTO>(clienteService.recuperarSenha(email, mensagem),HttpStatus.OK);
 	}
 	
 	@GetMapping("/dadosLogado")
