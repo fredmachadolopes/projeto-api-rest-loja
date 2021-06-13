@@ -1,6 +1,5 @@
 package org.serratec.backend.mapper;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class ProdutosPedidosMapper {
 	
 	public CompraDTO produtoPeditoToDto(ProdutosPedidosEntity pedido) {
-		DecimalFormat df = new DecimalFormat("0.##");
+
 		CompraDTO compra = new CompraDTO();
 		compra.setProduto(pedido.getProduto().getNome());
 		compra.setQuantidade(pedido.getQuantidade());

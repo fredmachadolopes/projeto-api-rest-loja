@@ -1,5 +1,6 @@
 package org.serratec.backend.service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +113,7 @@ public class PedidoService {
 
 	
 	public PedidoDTO finalizarPedido(Long id) throws PedidoNotFound {
+		
 		try {
 			
 			PedidoEntity pedido = pedidoRepository.getByNumeroPedido(id);

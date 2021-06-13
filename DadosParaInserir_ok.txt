@@ -1,0 +1,59 @@
+{
+ "nome": "WestmalleTripel",
+ "descricao": "Cerveja Trapista Belgacom aromas lupulados e levemente frutados.",
+ "categoria": "IMPORTADAS",
+ "preco": 7.6,
+"qtdEstoque": 400
+}
+-----------------------------------
+{
+ "nome": "WestmalleDubbel",
+ "descricao": "Cerveja Trapista Belga Escuracom alto nível de levedura e malte, mas pouco lúpulo e quase sem amargor.",
+ "categoria": "IMPORTADAS",
+ "preco": 7.6,
+"qtdEstoque": 400
+}
+
+-----------------------------------
+{
+ "nome": "Paulaner",
+ "descricao": "Cerveja WeissbierAlemãcom sabores frutados, malte adocicado e cravo.",
+ "categoria": "IMPORTADAS",
+ "preco": 7.6,
+"qtdEstoque": 400
+}
+
+-----------------------------------
+{
+ "nome": "Leffe Ruby",
+ "descricao": "Cerveja FuitBeer Belga com notas de frutas vermelhas.",
+ "categoria": "IMPORTADAS",
+ "preco": 7.6,
+"qtdEstoque": 400
+}
+
+-----------------------------------
+{
+ "nome": "Leffe Brown",
+ "descricao": "Cerveja belga de aroma torrado com toque de caramelo, chocolate e café.",
+ "categoria": "IMPORTADAS",
+ "preco": 7.6,
+"qtdEstoque": 400
+}
+
+-----------------------------------
+{
+ "nome": "Hoegaarden",
+ "descricao": "Witbier belga feita de trigo com sementes de coentro e casca de laranja.",
+ "categoria": "IMPORTADAS",
+ "preco": 7.6,
+"qtdEstoque": 400
+}
+
+
+
+
+{
+ "nome": "IMPORTADAS",
+   "descricao": "Cerveja Prime"
+}

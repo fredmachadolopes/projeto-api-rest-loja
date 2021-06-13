@@ -1,0 +1,119 @@
+{
+    "email":  "andre.caetano@best2bee.com.br",
+    "username": "andre" ,
+    "senha": "12346",
+    "nome": "Andre Caetano",
+    "cpf": "454.098.640-69",
+    "telefone": "12344556997",
+    "dtNascimento": "2002-11-02",
+    "endereco": [
+        {
+            "cep": "25620000",
+            "numero": "190",
+            "complemento": "204"
+        }
+    ]
+}
+------------------------------------
+{
+    "email":  "raphaelmachado04@gmail.com",
+    "username": "andre" ,
+    "senha": "32145",
+    "nome": "Raphael Machado",
+    "cpf": "758.064.270-05",
+    "telefone": "12344556997",
+    "dtNascimento": "2002-11-02",
+    "endereco": [
+        {
+            "cep": "25960531",
+            "numero": "631",
+            "complemento": "303"
+        }
+    ]
+}
+------------------------------------
+{
+    "email":  "adrianagaribalde@gmail.com",
+    "username": "drikas" ,
+    "senha": "12375",
+    "nome": "Adriana Garibalde",
+    "cpf": "072.980.670-79",
+    "telefone": "12344556997",
+    "dtNascimento": "2002-11-02",
+    "endereco": [
+        {
+            "cep": "25965430",
+            "numero": "190",
+            "complemento": "209"
+        }
+    ]
+}
+------------------------------------
+{
+    "email":  "karine.escobar@hotmail.com",
+    "username": "karine" ,
+    "senha": "54921",
+    "nome": "Karine Escobar",
+    "cpf": "502.928.820-17",
+    "telefone": "12344556997",
+    "dtNascimento": "2002-11-02",
+    "endereco": [
+        {
+            "cep": "25964040",
+            "numero": "190",
+            "complemento": "204"
+        }
+    ]
+}
+------------------------------------
+{
+    "email":  "fredlopes@gmail.com",
+    "username": "fred_lopes" ,
+    "senha": "18345",
+    "nome": "Fred Lopes",
+    "cpf": "313.910.787-05",
+    "telefone": "12344556997",
+    "dtNascimento": "2004-10-09",
+    "endereco": [
+        {
+            "cep": "25956210",
+            "numero": "190",
+            "complemento": "205"
+        }
+    ]
+}
+------------------------------------
+{
+    "email":  "mannyeslexpert@gmail.com",
+    "username": "fred_lopes" ,
+    "senha": "92345",
+    "nome": "Manoel Frederico Do Carmo Andrade",
+    "cpf": "704.940.880-87",
+    "telefone": "12344556997",
+    "dtNascimento": "2003-11-02",
+    "endereco": [
+        {
+            "cep": "25956210",
+            "numero": "190",
+            "complemento": "207"
+        }
+    ]
+}
+-------------------------------------
+
+{
+    "email":  "mateus@gmail.com",
+    "username": "mateus" ,
+    "senha": "72345",
+    "nome": "Mateus Pereira",
+    "cpf": "788.730.730-93",
+    "telefone": "12344556997",
+    "dtNascimento": "2002-12-02",
+    "endereco": [
+        {
+            "cep": "25956-210",
+            "numero": "190",
+            "complemento": "204"
+        }
+    ]
+}
