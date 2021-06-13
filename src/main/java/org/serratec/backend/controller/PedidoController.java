@@ -30,6 +30,12 @@ public class PedidoController {
 	public ResponseEntity<List<PedidoDTO>> findAll() {
 		return new ResponseEntity<List<PedidoDTO>>(pedidoService.findAll(), HttpStatus.OK);
 	}
+	
+	@GetMapping("/listarPedidoCliente")
+	public ResponseEntity<PedidoDTO> find(@RequestParam(name="pedido") Long numeroPedido) throws PedidoNotFound {
+		System.out.println(numeroPedido);
+		return new ResponseEntity<PedidoDTO>(pedidoService.find(numeroPedido), HttpStatus.OK);
+	}
 
 	@PostMapping("/criarPedido")
 	public ResponseEntity<PedidoDTO> create(@RequestParam(name="cliente") String identificador) {

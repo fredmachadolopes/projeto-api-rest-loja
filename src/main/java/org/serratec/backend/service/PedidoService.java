@@ -131,4 +131,14 @@ public class PedidoService {
 			throw new PedidoNotFound("Pedido não encontrado");
 		}
 	}
+
+	public PedidoDTO find(Long numeroPedido) throws PedidoNotFound {
+		try {
+			
+			PedidoEntity pedido = pedidoRepository.getByNumeroPedido(numeroPedido);
+			return pedidoMapper.toDto(pedido);
+		}catch(NullPointerException erro) {
+			throw new PedidoNotFound("Pedido não encontrado");
+		}
+	}
 }
