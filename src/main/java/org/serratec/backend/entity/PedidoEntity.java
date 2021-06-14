@@ -23,7 +23,7 @@ public class PedidoEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private static int numero = 1;
+	private static int numero = 10;
 	@NotNull
 	private Integer numeroPedido =  numero; //
 	

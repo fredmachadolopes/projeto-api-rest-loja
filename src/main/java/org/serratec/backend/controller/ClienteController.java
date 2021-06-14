@@ -27,7 +27,8 @@ public class ClienteController {
 	ClienteService clienteService;
 	
 	@PostMapping("/criarCliente")
-	public ResponseEntity<ClienteDTO>create(@RequestBody ClienteDTO dto) throws HasErrorInResponseCepException, ErroNaEntradaDosDados{
+	public ResponseEntity<ClienteDTO>create(@RequestBody ClienteDTO dto) throws HasErrorInResponseCepException, ErroNaEntradaDosDados, EmailOrPasswordNotValid{
+	
 		return new ResponseEntity<ClienteDTO>(clienteService.create(dto),HttpStatus.OK);
 	}
 	
@@ -52,7 +53,7 @@ public class ClienteController {
 	
 	@GetMapping("/recuperarSenha")
 	public ResponseEntity<ClienteDTO> logarCliente(@RequestParam(name = "email") String email) throws EmailOrPasswordNotValid{
-		String mensagem = "http://localhost:8080/cliente/atualizarCliente \n Entre no link acima e altere sua senha";
+		String mensagem = "http://localhost:8080/cliente/atualizarCliente \n Entre no link acima e altere sua senha \nUtilize esse codigo para atualizar sua senha \n";
 		return new ResponseEntity<ClienteDTO>(clienteService.recuperarSenha(email, mensagem),HttpStatus.OK);
 	}
 	

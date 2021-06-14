@@ -44,7 +44,7 @@ public class PedidoController {
 	}
 
 	@DeleteMapping("/deletarPedido/{id}")
-	public ResponseEntity<String> deletarPedido(@PathVariable Long id) {
+	public ResponseEntity<String> deletarPedido(@PathVariable Long id) throws PedidoNotFound {
 		return new ResponseEntity<String>(pedidoService.delete(id), HttpStatus.OK);
 	}
 	

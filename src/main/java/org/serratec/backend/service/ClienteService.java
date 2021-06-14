@@ -4,6 +4,8 @@ package org.serratec.backend.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
@@ -50,26 +52,34 @@ public class ClienteService {
 
 
 	// POST
-	public ClienteDTO create(ClienteDTO dto) throws HasErrorInResponseCepException, ErroNaEntradaDosDados {
-//		for(ClienteEntity clienteDoDB : findAll()) {
-//			if(clienteDoDB.getCpf().equals(dto.getCpf())) {
-//				throw new ErroNaEntradaDosDados("CPF já cadastrado");
-//			}
-//		}
+	public ClienteDTO create(ClienteDTO dto) throws HasErrorInResponseCepException, ErroNaEntradaDosDados, EmailOrPasswordNotValid {
+		for(ClienteEntity clienteDoDB : findAll()) {
+			if(clienteDoDB.getCpf().equals(dto.getCpf())) {
+				throw new ErroNaEntradaDosDados("CPF já cadastrado");
+			}
+			if(clienteDoDB.getEmail().equals(dto.getEmail())) {
+				throw new ErroNaEntradaDosDados("Email já cadastrado");
+			}
+		}
 		
 		if(dto.getTelefone().length() >= 8 && dto.getCpf().length() == 14 ) {
-			
-			ClienteEntity cliente = clienteMapper.toEntity(dto);
-			
-			
-			for (EnderecoDTO endercoParaTratar : dto.getEndereco()) {
-				EnderecoEntity endereco = enderecoMapper
-						.dtoToEndereco(enderecoService.adicionandoDadosAoEndereco(endercoParaTratar));
-				//cliente.setEndereco(endereco);
-				endereco.setCliente(cliente);
-				enderecoService.saveInDataBase(endereco);
+			try {
+				
+				ClienteEntity cliente = clienteMapper.toEntity(dto);
+				
+				
+				for (EnderecoDTO endercoParaTratar : dto.getEndereco()) {
+					EnderecoEntity endereco = enderecoMapper
+							.dtoToEndereco(enderecoService.adicionandoDadosAoEndereco(endercoParaTratar));
+					//cliente.setEndereco(endereco);
+					endereco.setCliente(cliente);
+					enderecoService.saveInDataBase(endereco);
+				}
+				recuperarSenha(dto.getEmail(), "Bem vindo ao sistema CERVEJAVA, " + dto.getUsername());
+				return clienteMapper.toDto(cliente);
+			}catch(ConstraintViolationException erro) {
+				throw new ErroNaEntradaDosDados("CPF invalido");
 			}
-			return clienteMapper.toDto(cliente);
 		}
 		
 		throw new ErroNaEntradaDosDados("Seu CPF tem de estar no formato xxx.xxx.xxx-xx e seu telefone deve ter mais de 8 digitos");
@@ -164,8 +174,8 @@ public class ClienteService {
 		try {
 			
 			emailEnviar.setFrom("fred.machado.rj@gmail.com");
-			emailEnviar.setSubject("Recuperar senha");
-			emailEnviar.setMsg(mensagem + "\nUtilize esse codigo para atualizar sua senha \n" + emailCliente.getIdentificador() );
+			emailEnviar.setSubject("Email Cervejava");
+			emailEnviar.setMsg(mensagem + "\nEste é seu código de acesso " + emailCliente.getIdentificador() );
 			emailEnviar.addTo(email);
 			emailEnviar.send();
 			System.out.println("Enviado ");

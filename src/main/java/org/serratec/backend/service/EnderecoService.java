@@ -58,7 +58,7 @@ public class EnderecoService {
 	}
 	
 	public String adicionarNoCliente(EnderecoDTO dto, Long trocar) throws HasErrorInResponseCepException {
-		// Adicionar validacao por token e adicionar ao cliente
+
 		EnderecoEntity endereco = enderecoMapper.dtoToEndereco(adicionandoDadosAoEndereco(dto));
 		endereco.setCliente(clienteRepository.getById(trocar));
           saveInDataBase(endereco);

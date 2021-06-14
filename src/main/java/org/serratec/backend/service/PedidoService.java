@@ -101,13 +101,16 @@ public class PedidoService {
 	}
 
 	// DELETE
-	public String delete(Long id) { // DEVE HAVER VERIFICAÇÃO COM A TABELA PRODUTOS ESTES DEVEM SER DEVOLVIDOS AO
-									// ESTOQUE
-		if (verificarId(id)) {
-			pedidoRepository.deleteById(id);
-			return "Pedido deletado com sucesso!";
+	public String delete(Long numeroPedido) throws PedidoNotFound { // DEVE HAVER VERIFICAÇÃO COM A TABELA PRODUTOS ESTES DEVEM SER DEVOLVIDOS AO
+		try {
+			
+			PedidoEntity pedido = pedidoRepository.getByNumeroPedido(numeroPedido);
+			pedido.setStatus(false);
+			pedidoRepository.saveAndFlush(pedido);
+			return "Pedido deletado";
+		}catch(NullPointerException erro) {
+			throw new PedidoNotFound("Pedido não encontrado");
 		}
-		return "Pedido não encontrado!";
 	}
 
 
@@ -128,7 +131,7 @@ public class PedidoService {
 				produtoRepository.saveAndFlush(produto);
 			}
 			
-			return pedidoMapper.toDto(pedido);
+			return pedidoMapper.toDto(pedidoRepository.saveAndFlush(pedido));
 		}catch(NullPointerException erro) {
 			throw new PedidoNotFound("Pedido não encontrado");
 		}
